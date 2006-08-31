@@ -20,17 +20,17 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id$
+  *  $Id: H44780.c,v 0.1 2006/08/31 10:27:56 luc Exp luc $
   */
 
 // Configuration de l'afficheur
 
 #define H44780_DISPLAY_TYPE     5
-#define H44780_DATA_PORT        B
-#define H44780_CLOCK_PORT       D
+#define H44780_DATA_PORT        __PORTB__
+#define H44780_CLOCK_PORT       __PORTD__
 #define H44780_CLOCK_PIN        2
 #define H44780_DATA_WIDTH       8
-#define H44780_RS_PORT          D
+#define H44780_RS_PORT          __PORTD__
 #define H44780_RS_PIN           3
 #include "io.h"
 #include "H44780.h"
@@ -73,9 +73,9 @@ LCD_init (uint8_t mode)
   _delay_us (160);
   LCD_sendCommand (mode);
   _delay_us (160);
+  LCD_sendCommand (H44780_CURSOR_ON);
   LCD_sendCommand (H44780_CURSOR_HOME);
   LCD_sendCommand (H44780_CLEAR_DISPLAY);
-  LCD_sendCommand (H44780_DISPLAY_ON);
   _H44780_DATA_PORT_ = 0x00;
 
 }
