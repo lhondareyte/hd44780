@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.h,v 0.2 2006/08/31 11:13:06 luc Exp luc $
+  *  $Id: H44780.h,v 0.3 2006/08/31 15:18:40 luc Exp luc $
   */
 #ifndef H44780_H
 #define H44780_H
@@ -149,6 +149,26 @@
         #define H44780_RW_PORT       4
 #endif
 
+#if defined (H44780_RW_PORT_PRESENT)
+#if   H44780_RW_PORT == __PORTB__
+        #warning error
+        #define _H44780_RW_PORT_    PORTB
+        #define _H44780_RW_REG_     DDRB
+        
+#elif H44780_RW_PORT == __PORTD__
+        #define _H44780_RW_PORT_    PORTD
+        #define _H44780_RW_REG_     DDRD
+        
+#elif H44780_RW_PORT == __PORTC__
+        #define _H44780_RW_PORT_    PORTC
+        #define _H44780_RW_REG_     DDRC
+        
+#elif H44780_RW_PORT == __PORTA__
+        #define _H44780_RW_PORT_    PORTA
+        #define _H44780_RW_REG_     DDRA
+#endif
+
+#endif
 /*
  *  Display types
  */
