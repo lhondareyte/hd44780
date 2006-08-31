@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.c,v 0.2 2006/08/31 11:12:52 luc Exp luc $
+  *  $Id: H44780.c,v 0.3 2006/08/31 15:18:58 luc Exp luc $
   */
 
 // Configuration de l'afficheur
@@ -32,7 +32,7 @@
 #define H44780_DATA_WIDTH       4
 #define H44780_RS_PORT          __PORTD__
 #define H44780_RS_PIN           3
-#include "io.h"
+
 #include "H44780.h"
 
 

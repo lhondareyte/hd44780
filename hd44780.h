@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.h,v 0.3 2006/08/31 15:18:40 luc Exp luc $
+  *  $Id: H44780.h,v 0.4 2006/08/31 15:23:08 luc Exp luc $
   */
 #ifndef H44780_H
 #define H44780_H
@@ -34,26 +34,20 @@
 #undef __PORTD__
 #define __PORTD__       0x03
 
-/*
+
 #undef setBIT
-#define setBIT(octet,bit)	( octet |= (1<<bit))
+#define setBIT(byte,bit)	( byte |= (1<<bit))
 #undef clearBIT
-#define clearBIT(octet,bit)	( octet &= ~(1<<bit))
-*/
+#define clearBIT(byte,bit)	( byte &= ~(1<<bit))
+
 #include <stdlib.h>
 #include <avr/io.h>
 #include <stdint.h>
 
-#if !defined (FOSC) || !defined (F_CPU)
-#undef FOSC
-#undef F_CPU
-#define FOSC			10000000
-#define F_CPU                   FOSC
+#if !defined (F_CPU)
+#define F_CPU   10000000
 #endif
-
 #include <util/delay.h>
-
-
 
 
 /*
