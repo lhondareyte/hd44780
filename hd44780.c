@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.c,v 0.5 2006/08/31 15:49:31 luc Exp luc $
+  *  $Id: H44780.c,v 0.6 2006/08/31 19:20:32 luc Exp luc $
   */
 
 // Configuration de l'afficheur
@@ -29,7 +29,7 @@
 #define H44780_DATA_PORT        __PORTB__
 #define H44780_CLOCK_PORT       __PORTD__
 #define H44780_CLOCK_PIN        2
-#define H44780_DATA_WIDTH       8
+#define H44780_DATA_WIDTH       4
 #define H44780_RS_PORT          __PORTD__
 #define H44780_RS_PIN           3
 
@@ -74,36 +74,25 @@ void
 LCD_init (uint8_t mode)
 {
 
+#if H44780_DATA_WIDTH == 8
   _H44780_DATA_REG_ = 0xFF;
+#else  
+  _H44780_DATA_REG_ = 0xF0;
+#endif
   setBIT (_H44780_CLOCK_REG_, H44780_CLOCK_PIN);
   setBIT (_H44780_RS_REG_, H44780_RS_PIN);
   _H44780_DATA_PORT_ = 0x00;
   _delay_ms (15);
-#if H44780_DATA_WIDTH == 8 
-  LCD_sendCommand (mode);
-  _delay_ms (5);
-  LCD_sendCommand (mode);
-  LCD_wait_us(64);
-  LCD_sendCommand (mode);
-  LCD_wait_us(64);
-  
-#else
-  _H44780_DATA_REG_ = 0xF0;
   _H44780_DATA_PORT_ = 0x30;
+  LCD_enable_ms(5);
+  LCD_enable_us(150);
+  LCD_sendCommand(mode);
   LCD_enable_us(500);
-  _delay_ms (5);
-  LCD_enable_us(500);
-  _delay_ms(100);
-  LCD_enable_us(500);
-  _delay_ms(5);
-#endif
-
   LCD_sendCommand (H44780_DISPLAY_ON);
   LCD_sendCommand (H44780_CURSOR_HOME);
   LCD_sendCommand (H44780_BLINK_OFF);
   LCD_sendCommand (H44780_CLEAR_DISPLAY);
   _H44780_DATA_PORT_ = 0x00;
-
 
 }
 
