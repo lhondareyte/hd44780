@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.c,v 0.1 2006/08/31 10:27:56 luc Exp luc $
+  *  $Id: H44780.c,v 0.2 2006/08/31 11:12:52 luc Exp luc $
   */
 
 // Configuration de l'afficheur
@@ -29,25 +29,48 @@
 #define H44780_DATA_PORT        __PORTB__
 #define H44780_CLOCK_PORT       __PORTD__
 #define H44780_CLOCK_PIN        2
-#define H44780_DATA_WIDTH       8
+#define H44780_DATA_WIDTH       4
 #define H44780_RS_PORT          __PORTD__
 #define H44780_RS_PIN           3
 #include "io.h"
 #include "H44780.h"
 
 
-static uint8_t lines, rows;
+//static uint8_t lines, rows;
 
-void
-LCD_sendCommand (uint8_t command)
+void LCD_sendCommand (uint8_t command)
 {
-  _H44780_DATA_REG_ = 0xFF;
-  _H44780_DATA_PORT_ = command;
-  setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
-  _delay_us (500);
-  clearBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
-  _H44780_DATA_PORT_ = 0x00;
-  _delay_ms (2);
+#if H44780_DATA_WIDTH == 8 
+
+        _H44780_DATA_REG_ = 0xFF;
+        _H44780_DATA_PORT_ = command;
+        
+        setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+        _delay_us (400);
+        clearBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+
+        _delay_ms (2);
+        _H44780_DATA_PORT_ = 0x00;
+
+#else 
+        _H44780_DATA_REG_ = 0xF0;
+        _H44780_DATA_PORT_ = command;
+
+        setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+        _delay_us (500);
+        clearBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+
+        _delay_ms(2);
+        _H44780_DATA_PORT_ = _H44780_DATA_PORT_ << 4;
+
+        setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+        _delay_us (500);
+        clearBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);        
+
+        _delay_ms (2);
+        _H44780_DATA_PORT_ = 0x00;
+#endif
+
 }
 
 void
@@ -62,21 +85,48 @@ LCD_sendText (uint8_t character)
 void
 LCD_init (uint8_t mode)
 {
+
   _H44780_DATA_REG_ = 0xFF;
   setBIT (_H44780_CLOCK_REG_, H44780_CLOCK_PIN);
   setBIT (_H44780_RS_REG_, H44780_RS_PIN);
   _H44780_DATA_PORT_ = 0x00;
   _delay_ms (15);
+#if H44780_DATA_WIDTH == 8 
   LCD_sendCommand (mode);
   _delay_ms (5);
   LCD_sendCommand (mode);
-  _delay_us (160);
+  _delay_us (64);
   LCD_sendCommand (mode);
-  _delay_us (160);
-  LCD_sendCommand (H44780_CURSOR_ON);
+  _delay_ms (2);
+  
+#else
+  _H44780_DATA_REG_ = 0xF0;
+  _H44780_DATA_PORT_ = 0x30;
+
+  setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+  _delay_us (500);
+  clearBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+  
+  _delay_ms (5);
+
+  setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+  _delay_us (500);
+  clearBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+    
+  _delay_ms(100);
+  
+  setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+  _delay_us (500);
+  clearBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);   
+  
+  _delay_ms(5);
+#endif
+
+  LCD_sendCommand (H44780_DISPLAY_ON);
   LCD_sendCommand (H44780_CURSOR_HOME);
   LCD_sendCommand (H44780_CLEAR_DISPLAY);
   _H44780_DATA_PORT_ = 0x00;
+
 
 }
 
@@ -107,11 +157,15 @@ LCD_printf (char *string)
   return 0;
 }
 
+
 int
 main (void)
 {
-
+#if H44780_DATA_WIDTH == 4
+  LCD_init (0x28);
+#else
   LCD_init (0x38);
+#endif
   LCD_printf ("Bonjour, Monde\n");
   LCD_printf ("Comment va?");
   return 0;
