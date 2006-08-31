@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.h,v 0.4 2006/08/31 15:23:08 luc Exp luc $
+  *  $Id: H44780.h,v 0.5 2006/08/31 15:30:27 luc Exp luc $
   */
 #ifndef H44780_H
 #define H44780_H
@@ -218,6 +218,9 @@ void LCD_sendText (uint8_t);
 
 #define LCD_clear()             LCD_sendCommand(H44780_CLEAR_DISPLAY)
 #define LCD_blink()             LCD_sendCommand(H44780_BLINK_ON)
+#define LCD_wait()              setBIT(_H44780_RW_REG_, _H44780_RW_PIN); \
+                                loop_until_bit_is_clear(_H44780_DATA_PORT,H44780_BUSY_FLAG); \
+                                clearBIT(_H44780_RW_REG_, _H44780_RW_PIN);
 
 /*
  * H44780 command codes

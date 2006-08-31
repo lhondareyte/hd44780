@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.c,v 0.3 2006/08/31 15:18:58 luc Exp luc $
+  *  $Id: H44780.c,v 0.4 2006/08/31 15:29:40 luc Exp luc $
   */
 
 // Configuration de l'afficheur
@@ -46,10 +46,17 @@ void LCD_sendCommand (uint8_t command)
         _H44780_DATA_PORT_ = command;
         
         setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+#if defined (H44780_RW_PORT_PRESENT)
+        LCD_wait();
+#else        
         _delay_us (400);
+#endif
         clearBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
-
+#if defined (H44780_RW_PORT_PRESENT)
+        LCD_wait();
+#else        
         _delay_ms (2);
+#endif
         _H44780_DATA_PORT_ = 0x00;
 
 #else 
@@ -57,17 +64,31 @@ void LCD_sendCommand (uint8_t command)
         _H44780_DATA_PORT_ = command;
 
         setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+#if defined (H44780_RW_PORT_PRESENT)
+        LCD_wait();
+#else        
         _delay_us (500);
+#endif        
         clearBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
-
-        _delay_ms(2);
+#if defined (H44780_RW_PORT_PRESENT)
+        LCD_wait();
+#else        
+        _delay_ms (2);
+#endif
         _H44780_DATA_PORT_ = _H44780_DATA_PORT_ << 4;
 
         setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+#if defined (H44780_RW_PORT_PRESENT)
+        LCD_wait();
+#else        
         _delay_us (500);
+#endif    
         clearBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);        
-
+#if defined (H44780_RW_PORT_PRESENT)
+        LCD_wait();
+#else        
         _delay_ms (2);
+#endif
         _H44780_DATA_PORT_ = 0x00;
 #endif
 
@@ -95,9 +116,17 @@ LCD_init (uint8_t mode)
   LCD_sendCommand (mode);
   _delay_ms (5);
   LCD_sendCommand (mode);
-  _delay_us (64);
+#if defined (H44780_RW_PORT_PRESENT)
+        LCD_wait();
+#else        
+        _delay_us (64);
+#endif
   LCD_sendCommand (mode);
-  _delay_ms (2);
+#if defined (H44780_RW_PORT_PRESENT)
+        LCD_wait();
+#else        
+        _delay_us (64);
+#endif
   
 #else
   _H44780_DATA_REG_ = 0xF0;
@@ -118,8 +147,11 @@ LCD_init (uint8_t mode)
   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
   _delay_us (500);
   clearBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);   
-  
-  _delay_ms(5);
+#if defined (H44780_RW_PORT_PRESENT)
+        LCD_wait();
+#else        
+        _delay_ms (5);
+#endif
 #endif
 
   LCD_sendCommand (H44780_DISPLAY_ON);
