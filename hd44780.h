@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.h,v 0.1 2006/08/31 10:28:03 luc Exp luc $
+  *  $Id: H44780.h,v 0.2 2006/08/31 11:13:06 luc Exp luc $
   */
 #ifndef H44780_H
 #define H44780_H
@@ -210,16 +210,16 @@ void LCD_sendText (uint8_t);
  */
 
 #define H44780_CLEAR_DISPLAY    0x01
-#define H44780_CURSOR_HOME      0x00
+#define H44780_CURSOR_HOME      0x02
 
-#define H44780_DISPLAY_OFF      0x00
-#define H44780_DISPLAY_ON       0x08
+#define H44780_DISPLAY_OFF      0x08
+#define H44780_DISPLAY_ON       0x0C
 
 #define H44780_BLINK_ON         0x0F
-#define H44780_BLINK_OFF        0x0A
+#define H44780_BLINK_OFF        0x0C
 
-#define H44780_CURSOR_ON        0x0C
-#define H44780_CURSOR_OFF       0x08
+#define H44780_CURSOR_ON        0x0E
+#define H44780_CURSOR_OFF       0x0C
 
 
 #endif   //     H44780_H
