@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.h,v 0.5 2006/08/31 15:30:27 luc Exp luc $
+  *  $Id: H44780.h,v 0.6 2006/08/31 15:49:12 luc Exp luc $
   */
 #ifndef H44780_H
 #define H44780_H
@@ -166,6 +166,10 @@
 /*
  *  Display types
  */
+#if !defined (H44780_DISPLAY_TYPE)
+        #warning "H44780_DISPLAY_TYPE is not defined"
+        #define H44780_DISPLAY_TYPE       4
+#endif
 
 #if   H44780_DISPLAY_TYPE == 1
         #define H44780_ROWS     5
@@ -218,10 +222,37 @@ void LCD_sendText (uint8_t);
 
 #define LCD_clear()             LCD_sendCommand(H44780_CLEAR_DISPLAY)
 #define LCD_blink()             LCD_sendCommand(H44780_BLINK_ON)
-#define LCD_wait()              setBIT(_H44780_RW_REG_, _H44780_RW_PIN); \
-                                loop_until_bit_is_clear(_H44780_DATA_PORT,H44780_BUSY_FLAG); \
-                                clearBIT(_H44780_RW_REG_, _H44780_RW_PIN);
 
+#if defined (H44780_RW_PORT_PRESENT)
+ #define LCD_wait_us(delay)     setBIT(_H44780_RW_REG_, _H44780_RW_PIN); \
+                                loop_until_bit_is_clear(_H44780_DATA_PORT_,H44780_BUSY_FLAG); \
+                                clearBIT(_H44780_RW_REG_, _H44780_RW_PIN)
+#else
+ #define LCD_wait_us(delay)     _delay_us(delay)
+#endif
+#if defined (H44780_RW_PORT_PRESENT)
+ #define LCD_wait_ms(delay)     setBIT(_H44780_RW_REG_, _H44780_RW_PIN); \
+                                loop_until_bit_is_clear(_H44780_DATA_PORT_,H44780_BUSY_FLAG); \
+                                clearBIT(_H44780_RW_REG_, H44780_RW_PIN)
+#else
+ #define LCD_wait_ms(delay)     _delay_ms(delay)
+#endif
+
+#if defined (H44780_RW_PORT_PRESENT)
+ #define LCD_enable_ms(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); LCD_wait(); \
+                                clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN)
+#else             
+ #define LCD_enable_ms(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); _delay_ms (delay); \
+                                clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN)
+#endif
+
+#if defined (H44780_RW_PORT_PRESENT)
+ #define LCD_enable_us(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); LCD_wait(); \
+                                clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
+#else             
+ #define LCD_enable_us(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); _delay_us (delay); \
+                                clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN)
+#endif
 /*
  * H44780 command codes
  */
