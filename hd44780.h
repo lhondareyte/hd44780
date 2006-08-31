@@ -20,11 +20,19 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id$
+  *  $Id: H44780.h,v 0.1 2006/08/31 10:28:03 luc Exp luc $
   */
 #ifndef H44780_H
 #define H44780_H
 
+#undef __PORTA__
+#define __PORTA__       0x00
+#undef __PORTB__
+#define __PORTB__       0x01
+#undef __PORTC__
+#define __PORTC__       0x02
+#undef __PORTD__
+#define __PORTD__       0x03
 
 /*
 #undef setBIT
@@ -63,19 +71,19 @@
 
 #endif
 
-#if H44780_DATA_PORT == B
+#if H44780_DATA_PORT == __PORTB__
         #define _H44780_DATA_PORT_    PORTB
         #define _H44780_DATA_REG_     DDRB
 
-#elif H44780_DATA_PORT == D
+#elif H44780_DATA_PORT == __PORTD__
         #define _H44780_DATA_PORT_    PORTD
         #define _H44780_DATA_REG_     DDRD
 
-#elif H44780_DATA_PORT == C
+#elif H44780_DATA_PORT == __PORTC__
         #define _H44780_DATA_PORT_    PORTC
         #define _H44780_DATA_REG_     DDRC
 
-#elif H44780_DATA_PORT == A
+#elif H44780_DATA_PORT == __PORTA__
         #define _H44780_DATA_PORT_    PORTA
         #define _H44780_DATA_REG_     DDRA
 #endif
@@ -89,19 +97,19 @@
         #define H44780_CLOCK_PIN       2
 #endif
 
-#if   H44780_CLOCK_PORT == B
+#if   H44780_CLOCK_PORT == __PORTB__
         #define _H44780_CLOCK_PORT_    PORTB
         #define _H44780_CLOCK_REG_     DDRB
         
-#elif H44780_CLOCK_PORT == D
+#elif H44780_CLOCK_PORT == __PORTD__
         #define _H44780_CLOCK_PORT_    PORTD
         #define _H44780_CLOCK_REG_     DDRD
         
-#elif H44780_CLOCK_PORT == C
+#elif H44780_CLOCK_PORT == __PORTC__
         #define _H44780_CLOCK_PORT_    PORTC
         #define _H44780_CLOCK_REG_     DDRC
         
-#elif H44780_CLOCK_PORT == A
+#elif H44780_CLOCK_PORT == __PORTA__
         #define _H44780_CLOCK_PORT_    PORTA
         #define _H44780_CLOCK_REG_     DDRA
 #endif
@@ -118,19 +126,20 @@
         #define H44780_RS_PIN          3
 #endif
 
-#if   H44780_RS_PORT == B
+#if   H44780_RS_PORT == __PORTB__
+        #warning error
         #define _H44780_RS_PORT_    PORTB
         #define _H44780_RS_REG_     DDRB
         
-#elif H44780_RS_PORT == D
+#elif H44780_RS_PORT == __PORTD__
         #define _H44780_RS_PORT_    PORTD
         #define _H44780_RS_REG_     DDRD
         
-#elif H44780_RS_PORT == C
+#elif H44780_RS_PORT == __PORTC__
         #define _H44780_RS_PORT_    PORTC
         #define _H44780_RS_REG_     DDRC
         
-#elif H44780_RS_PORT == A
+#elif H44780_RS_PORT == __PORTA__
         #define _H44780_RS_PORT_    PORTA
         #define _H44780_RS_REG_     DDRA
 #endif
