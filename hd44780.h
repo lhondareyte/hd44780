@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.h,v 0.9 2006/09/01 10:37:19 luc Exp luc $
+  *  $Id: H44780.h,v 0.10 2006/09/01 14:41:25 luc Exp luc $
   */
 #ifndef H44780_H
 #define H44780_H
@@ -219,6 +219,7 @@ void LCD_init (void);
 void LCD_sendCommand (uint8_t);
 void LCD_sendText (uint8_t);
 void LCD_gotoxy(uint8_t,uint8_t);
+void LCD_clearLine(uint8_t);
 
 /*
  *  Macros
@@ -275,9 +276,6 @@ void LCD_gotoxy(uint8_t,uint8_t);
 
 #define H44780_CURSOR_ON        0x0E
 #define H44780_CURSOR_OFF       0x0C
-
-
-//static uint8_t lines, rows;
 
 void LCD_sendCommand (uint8_t command)
 {
@@ -341,6 +339,17 @@ LCD_gotoxy (uint8_t x, uint8_t y)
         LCD_sendCommand(code);
 }
 
+void LCD_clearLine(uint8_t line)
+{
+        uint8_t i=1;
+        LCD_gotoxy(line,1);
+        while (i != H44780_ROWS + 1)
+        {
+         LCD_sendText(0x20);
+         i++;
+        }
+} 
+
 
 void
 LCD_init (void)
@@ -394,7 +403,6 @@ LCD_puts (char *string)
     }
   return 0;
 }
-
 
 #endif   //     H44780_H
 
