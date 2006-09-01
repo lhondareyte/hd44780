@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.c,v 0.8 2006/09/01 10:11:42 luc Exp luc $
+  *  $Id: H44780.c,v 0.9 2006/09/01 10:36:42 luc Exp luc $
   */
 
 // Configuration de l'afficheur
@@ -153,17 +153,5 @@ LCD_puts (char *string)
   return 0;
 }
 
-
-int main (void)
-{
-  LCD_init();
-  LCD_gotoxy(1,3);
-  LCD_puts ("Bonjour,");
-  LCD_gotoxy(2,6);
-  LCD_puts ("le monde...");
-  LCD_blinkOn();
-  LCD_gotoxy(2,16);
-  return 0;
-}
 
 //
