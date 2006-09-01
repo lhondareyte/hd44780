@@ -20,19 +20,19 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.h,v 0.7 2006/08/31 19:20:49 luc Exp luc $
+  *  $Id: H44780.h,v 0.8 2006/09/01 10:13:05 luc Exp luc $
   */
 #ifndef H44780_H
 #define H44780_H
 
 #undef __PORTA__
-#define __PORTA__       0x00
+#define         __PORTA__       0x00
 #undef __PORTB__
-#define __PORTB__       0x01
+#define         __PORTB__       0x01
 #undef __PORTC__
-#define __PORTC__       0x02
+#define         __PORTC__       0x02
 #undef __PORTD__
-#define __PORTD__       0x03
+#define         __PORTD__       0x03
 
 
 #undef setBIT
@@ -218,7 +218,7 @@
 /*
  * Prototypes
  */
-uint8_t LCD_printf (char *);
+uint8_t LCD_puts (char *);
 void LCD_init (void);
 void LCD_sendCommand (uint8_t);
 void LCD_sendText (uint8_t);
