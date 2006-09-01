@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.c,v 0.6 2006/08/31 19:20:32 luc Exp luc $
+  *  $Id: H44780.c,v 0.7 2006/08/31 21:53:46 luc Exp luc $
   */
 
 // Configuration de l'afficheur
@@ -44,16 +44,16 @@ void LCD_sendCommand (uint8_t command)
 
         _H44780_DATA_REG_ = 0xFF;
         _H44780_DATA_PORT_ = command;
-        LCD_enable_us(400);
+        LCD_enable_us(200);
         LCD_wait_ms(2);
 
 #else 
         _H44780_DATA_REG_ = 0xF0;
         _H44780_DATA_PORT_ = command;
-        LCD_enable_us(500);
+        LCD_enable_us(200);
         LCD_wait_ms(2);
         _H44780_DATA_PORT_ = _H44780_DATA_PORT_ << 4;
-        LCD_enable_us(500);
+        LCD_enable_us(200);
         LCD_wait_ms(2);
 
 #endif
@@ -69,9 +69,36 @@ LCD_sendText (uint8_t character)
   clearBIT (_H44780_RS_PORT_, H44780_RS_PIN);
 }
 
+void
+LCD_gotoxy (uint8_t x, uint8_t y) 
+{
+        uint8_t code;
+
+        if ( y <= H44780_ROWS )
+           code = 0x80 -1 + y;
+        else code = 0x7F + H44780_ROWS;
+        
+        if (x == 1) {    
+        }                 
+        else if (x == 2) {
+         code = code + 0x40;
+        }                 
+
+#if H44780_LINES >= 3  
+        else if (x == 3) { 
+         code = code + H44780_ROWS; 
+        }
+        else if (x == 4) {
+         code = code + H44780_ROWS + 0x40; 
+        }                 
+#endif                 
+        else  code = H44780_CURSOR_HOME;
+        LCD_sendCommand(code);
+}
+
 
 void
-LCD_init (uint8_t mode)
+LCD_init (void)
 {
 
 #if H44780_DATA_WIDTH == 8
@@ -86,13 +113,16 @@ LCD_init (uint8_t mode)
   _H44780_DATA_PORT_ = 0x30;
   LCD_enable_ms(5);
   LCD_enable_us(150);
-  LCD_sendCommand(mode);
-  LCD_enable_us(500);
+#if H44780_DATA_WIDTH == 8
+  LCD_sendCommand(0x30 + _H44780_LINES_ );
+#else
+  LCD_sendCommand(0x20 + _H44780_LINES_ );
+#endif
+  LCD_enable_us(400);
   LCD_sendCommand (H44780_DISPLAY_ON);
   LCD_sendCommand (H44780_CURSOR_HOME);
   LCD_sendCommand (H44780_BLINK_OFF);
   LCD_sendCommand (H44780_CLEAR_DISPLAY);
-  _H44780_DATA_PORT_ = 0x00;
 
 }
 
@@ -124,16 +154,15 @@ LCD_printf (char *string)
 }
 
 
-int
-main (void)
+int main (void)
 {
-#if H44780_DATA_WIDTH == 4
-  LCD_init (0x28);
-#else
-  LCD_init (0x38);
-#endif
-  LCD_printf ("Bonjour, Monde\n");
-  LCD_printf ("Comment va?");
+  LCD_init();
+  LCD_gotoxy(1,3);
+  LCD_printf ("Bonjour,");
+  LCD_gotoxy(2,6);
+  LCD_printf ("le monde...");
+  LCD_blinkOn();
+  LCD_gotoxy(2,16);
   return 0;
 }
 
