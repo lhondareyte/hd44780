@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.h,v 0.6 2006/08/31 15:49:12 luc Exp luc $
+  *  $Id: H44780.h,v 0.7 2006/08/31 19:20:49 luc Exp luc $
   */
 #ifndef H44780_H
 #define H44780_H
@@ -174,6 +174,7 @@
 #if   H44780_DISPLAY_TYPE == 1
         #define H44780_ROWS     5
         #define H44780_LINES    2
+
         
 #elif H44780_DISPLAY_TYPE == 2
         #define H44780_ROWS     8
@@ -208,20 +209,30 @@
         #define H44780_LINES    2
 #endif
 
+#if H44780_LINES <= 1
+        #define _H44780_LINES_          0x00
+#else
+        #define _H44780_LINES_          0x08
+#endif
+
 /*
  * Prototypes
  */
 uint8_t LCD_printf (char *);
-void LCD_init (uint8_t);
+void LCD_init (void);
 void LCD_sendCommand (uint8_t);
 void LCD_sendText (uint8_t);
+void LCD_gotoxy(uint8_t,uint8_t);
 
 /*
  *  Macros
  */
 
 #define LCD_clear()             LCD_sendCommand(H44780_CLEAR_DISPLAY)
-#define LCD_blink()             LCD_sendCommand(H44780_BLINK_ON)
+#define LCD_blinkOn()           LCD_sendCommand(H44780_BLINK_ON)
+#define LCD_blinkOff()          LCD_sendCommand(H44780_BLINK_OFF)
+#define LCD_cursorOn()          LCD_sendCommand(H44780_CURSOR_ON)
+#define LCD_cursorOff()         LCD_sendCommand(H44780_CURSOR_OFF)
 
 #if defined (H44780_RW_PORT_PRESENT)
  #define LCD_wait_us(delay)     setBIT(_H44780_RW_REG_, _H44780_RW_PIN); \
