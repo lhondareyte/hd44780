@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.c,v 0.7 2006/08/31 21:53:46 luc Exp luc $
+  *  $Id: H44780.c,v 0.8 2006/09/01 10:11:42 luc Exp luc $
   */
 
 // Configuration de l'afficheur
@@ -34,7 +34,6 @@
 #define H44780_RS_PIN           3
 
 #include "H44780.h"
-
 
 //static uint8_t lines, rows;
 
@@ -78,20 +77,24 @@ LCD_gotoxy (uint8_t x, uint8_t y)
            code = 0x80 -1 + y;
         else code = 0x7F + H44780_ROWS;
         
-        if (x == 1) {    
-        }                 
+        if (x == 1) {
+         
+        }
+        
+#if H44780_LINES >= 2                   
         else if (x == 2) {
          code = code + 0x40;
         }                 
 
-#if H44780_LINES >= 3  
+ #if H44780_LINES >= 3  
         else if (x == 3) { 
          code = code + H44780_ROWS; 
         }
         else if (x == 4) {
          code = code + H44780_ROWS + 0x40; 
         }                 
-#endif                 
+ #endif    
+#endif             
         else  code = H44780_CURSOR_HOME;
         LCD_sendCommand(code);
 }
@@ -128,7 +131,7 @@ LCD_init (void)
 
 
 uint8_t
-LCD_printf (char *string)
+LCD_puts (char *string)
 {
   uint8_t i = 0;
   while (string[i] != '\0')
@@ -136,13 +139,10 @@ LCD_printf (char *string)
       switch (string[i])
 	{
 	case '\n':
-
 	  LCD_sendCommand (0xC0);
 
 	case '\b':
 	  LCD_sendCommand (0x10);
-
-
 
 	default:
 
@@ -158,9 +158,9 @@ int main (void)
 {
   LCD_init();
   LCD_gotoxy(1,3);
-  LCD_printf ("Bonjour,");
+  LCD_puts ("Bonjour,");
   LCD_gotoxy(2,6);
-  LCD_printf ("le monde...");
+  LCD_puts ("le monde...");
   LCD_blinkOn();
   LCD_gotoxy(2,16);
   return 0;
