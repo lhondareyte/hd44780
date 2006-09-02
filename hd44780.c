@@ -20,20 +20,16 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.c,v 0.9 2006/09/01 10:36:42 luc Exp luc $
+  *  $Id: H44780.c,v 0.91 2006/09/01 13:13:44 luc Exp luc $
   */
 
-// Configuration de l'afficheur
+#ifndef H44780_H
+ #include "H44780.h"
+#endif
 
-#define H44780_DISPLAY_TYPE     5
-#define H44780_DATA_PORT        __PORTB__
-#define H44780_CLOCK_PORT       __PORTD__
-#define H44780_CLOCK_PIN        2
-#define H44780_DATA_WIDTH       4
-#define H44780_RS_PORT          __PORTD__
-#define H44780_RS_PIN           3
-
-#include "H44780.h"
+#include <stdlib.h>
+#include <avr/io.h>
+#include <stdint.h>
 
 //static uint8_t lines, rows;
 
@@ -130,7 +126,7 @@ LCD_init (void)
 }
 
 
-uint8_t
+void
 LCD_puts (char *string)
 {
   uint8_t i = 0;
@@ -150,8 +146,23 @@ LCD_puts (char *string)
 	}
       i++;
     }
-  return 0;
+
 }
 
+void LCD_clearLine(uint8_t line)
+{
+        uint8_t i=1;
+        LCD_gotoxy(line,1);
+        while (i != H44780_ROWS + 1)
+        {
+         LCD_sendText(0x20);
+         i++;
+        }
+} 
+
+void LCD_putc (char *c)
+{
+   LCD_sendText (c[0]);
+}
 
 //
