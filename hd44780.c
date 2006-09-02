@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.c,v 1.0 2006/09/02 12:00:31 luc Exp luc $
+  *  $Id: H44780.c,v 1.1 2006/09/02 16:15:37 luc Exp luc $
   */
 
 #ifndef H44780_H
@@ -40,7 +40,7 @@ void LCD_sendCommand (uint8_t command)
 
 #if H44780_DATA_WIDTH == 4 
 
-  #if H44780_PORT_IS_MSB  == 1
+  #if H44780_PORT_IS_LSB  == 1
         _H44780_DATA_PORT_ = _H44780_DATA_PORT_ >> 4;
         LCD_enable_us(200);
         LCD_wait_ms(2);
@@ -105,7 +105,7 @@ void LCD_init (void)
         _H44780_DATA_PORT_ = 0x00;
         _delay_ms (15);
         
-#if H44780_PORT_IS_MSB  == 1 
+#if H44780_PORT_IS_LSB  == 1 
  
         _H44780_DATA_PORT_ = 0x03;
  #else

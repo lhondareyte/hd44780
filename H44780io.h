@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id$
+  *  $Id: H44780io.h,v 1.0 2006/09/02 12:01:35 luc Exp $
   */
 
 
@@ -40,4 +40,4 @@
 //#define H44780_RW_PORT_PRESENT        1               
 //#define H44780_RW_PORT                __PORTX__       // X = [A...D]
 //#define H44780_RW_PIN                 1               // [0...7]
-//#define H44780_PORT_IS_MSB            1               // 0 | 1
+//#define H44780_PORT_IS_LSB            1               // 0 | 1
