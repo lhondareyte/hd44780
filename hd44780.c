@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.c,v 0.91 2006/09/01 13:13:44 luc Exp luc $
+  *  $Id: H44780.c,v 1.0 2006/09/02 12:00:31 luc Exp luc $
   */
 
 #ifndef H44780_H
@@ -35,37 +35,37 @@
 
 void LCD_sendCommand (uint8_t command)
 {
-#if H44780_DATA_WIDTH == 8 
-
-        _H44780_DATA_REG_ = 0xFF;
         _H44780_DATA_PORT_ = command;
+        _H44780_DATA_REG_ = _H44780_DATA_MASK_;
+
+#if H44780_DATA_WIDTH == 4 
+
+  #if H44780_PORT_IS_MSB  == 1
+        _H44780_DATA_PORT_ = _H44780_DATA_PORT_ >> 4;
         LCD_enable_us(200);
         LCD_wait_ms(2);
-
-#else 
-        _H44780_DATA_REG_ = 0xF0;
         _H44780_DATA_PORT_ = command;
+  #else
         LCD_enable_us(200);
         LCD_wait_ms(2);
         _H44780_DATA_PORT_ = _H44780_DATA_PORT_ << 4;
-        LCD_enable_us(200);
-        LCD_wait_ms(2);
+  #endif
 
 #endif
+        LCD_enable_us(200);
+        LCD_wait_ms(2);
         _H44780_DATA_PORT_ = 0x00;
 
 }
 
-void
-LCD_sendText (uint8_t character)
+void LCD_sendText (uint8_t character)
 {
-  setBIT (_H44780_RS_PORT_, H44780_RS_PIN);
-  LCD_sendCommand (character);
-  clearBIT (_H44780_RS_PORT_, H44780_RS_PIN);
+        setBIT (_H44780_RS_PORT_, H44780_RS_PIN);
+        LCD_sendCommand (character);
+        clearBIT (_H44780_RS_PORT_, H44780_RS_PIN);
 }
 
-void
-LCD_gotoxy (uint8_t x, uint8_t y) 
+void LCD_gotoxy (uint8_t x, uint8_t y) 
 {
         uint8_t code;
 
@@ -74,7 +74,7 @@ LCD_gotoxy (uint8_t x, uint8_t y)
         else code = 0x7F + H44780_ROWS;
         
         if (x == 1) {
-         
+           // do nothing
         }
         
 #if H44780_LINES >= 2                   
@@ -96,38 +96,41 @@ LCD_gotoxy (uint8_t x, uint8_t y)
 }
 
 
-void
-LCD_init (void)
+void LCD_init (void)
 {
 
-#if H44780_DATA_WIDTH == 8
-  _H44780_DATA_REG_ = 0xFF;
-#else  
-  _H44780_DATA_REG_ = 0xF0;
+        _H44780_DATA_REG_ = _H44780_DATA_MASK_;
+        setBIT (_H44780_CLOCK_REG_, H44780_CLOCK_PIN);
+        setBIT (_H44780_RS_REG_, H44780_RS_PIN);
+        _H44780_DATA_PORT_ = 0x00;
+        _delay_ms (15);
+        
+#if H44780_PORT_IS_MSB  == 1 
+ 
+        _H44780_DATA_PORT_ = 0x03;
+ #else
+        _H44780_DATA_PORT_ = 0x30;
+ 
 #endif
-  setBIT (_H44780_CLOCK_REG_, H44780_CLOCK_PIN);
-  setBIT (_H44780_RS_REG_, H44780_RS_PIN);
-  _H44780_DATA_PORT_ = 0x00;
-  _delay_ms (15);
-  _H44780_DATA_PORT_ = 0x30;
-  LCD_enable_ms(5);
-  LCD_enable_us(150);
+        LCD_enable_ms(5);
+        LCD_enable_us(150);
+
 #if H44780_DATA_WIDTH == 8
-  LCD_sendCommand(0x30 + _H44780_LINES_ );
-#else
-  LCD_sendCommand(0x20 + _H44780_LINES_ );
+
+        LCD_sendCommand(0x30 + _H44780_LINES_ );
+ #else
+        LCD_sendCommand(0x20 + _H44780_LINES_ );
+
 #endif
-  LCD_enable_us(400);
-  LCD_sendCommand (H44780_DISPLAY_ON);
-  LCD_sendCommand (H44780_CURSOR_HOME);
-  LCD_sendCommand (H44780_BLINK_OFF);
-  LCD_sendCommand (H44780_CLEAR_DISPLAY);
+        LCD_enable_us(400);
+        LCD_sendCommand (H44780_DISPLAY_ON);
+        LCD_sendCommand (H44780_CURSOR_HOME);
+        LCD_sendCommand (H44780_BLINK_OFF);
+        LCD_sendCommand (H44780_CLEAR_DISPLAY);
 
 }
 
-
-void
-LCD_puts (char *string)
+void LCD_puts (char *string)
 {
   uint8_t i = 0;
   while (string[i] != '\0')
@@ -141,7 +144,6 @@ LCD_puts (char *string)
 	  LCD_sendCommand (0x10);
 
 	default:
-
 	  LCD_sendText (string[i]);
 	}
       i++;
@@ -162,7 +164,5 @@ void LCD_clearLine(uint8_t line)
 
 void LCD_putc (char *c)
 {
-   LCD_sendText (c[0]);
+        LCD_sendText (c[0]);
 }
-
-//
