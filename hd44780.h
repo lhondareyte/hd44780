@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.h,v 0.11 2006/09/01 20:14:56 luc Exp luc $
+  *  $Id: H44780.h,v 1.0 2006/09/02 12:00:58 luc Exp luc $
   */
 
 #ifndef H44780_H
@@ -30,7 +30,7 @@
 #include <avr/io.h>
 #include <stdint.h>
 
-#include "H44780_conf.h"
+#include "H44780io.h"
 
 #undef __PORTA__
 #define         __PORTA__       0x00
@@ -57,6 +57,16 @@
 /*
  *  Default values
  */
+
+#if H44780_DATA_WIDTH == 8
+  #define _H44780_DATA_MASK_    0xFF
+#else 
+ #if H44780_PORT_IS_LSB  == 1
+  #define _H44780_DATA_MASK_    0x0F
+ #else
+  #define _H44780_DATA_MASK_    0xF0
+ #endif
+#endif
 
 #if !defined (H44780_DISPLAY_TYPE)
         #warning "H44780_DISPLAY_TYPE is not defined"
