@@ -20,10 +20,17 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.h,v 0.10 2006/09/01 14:41:25 luc Exp luc $
+  *  $Id: H44780.h,v 0.11 2006/09/01 20:14:56 luc Exp luc $
   */
+
 #ifndef H44780_H
 #define H44780_H
+  
+#include <stdlib.h>
+#include <avr/io.h>
+#include <stdint.h>
+
+#include "H44780_conf.h"
 
 #undef __PORTA__
 #define         __PORTA__       0x00
@@ -44,6 +51,7 @@
 #define F_CPU   10000000
 #endif
 #include <util/delay.h>
+
 
 
 /*
@@ -117,7 +125,6 @@
 #endif
 
 #if   H44780_RS_PORT == __PORTB__
-        #warning error
         #define _H44780_RS_PORT_    PORTB
         #define _H44780_RS_REG_     DDRB
         
@@ -141,7 +148,6 @@
 
 #if defined (H44780_RW_PORT_PRESENT)
 #if   H44780_RW_PORT == __PORTB__
-        #warning error
         #define _H44780_RW_PORT_    PORTB
         #define _H44780_RW_REG_     DDRB
         
@@ -214,7 +220,8 @@
 /*
  * Prototypes
  */
-uint8_t LCD_puts (char *);
+void LCD_puts (char *);
+void LCD_putc (char *);
 void LCD_init (void);
 void LCD_sendCommand (uint8_t);
 void LCD_sendText (uint8_t);
@@ -277,132 +284,6 @@ void LCD_clearLine(uint8_t);
 #define H44780_CURSOR_ON        0x0E
 #define H44780_CURSOR_OFF       0x0C
 
-void LCD_sendCommand (uint8_t command)
-{
-#if H44780_DATA_WIDTH == 8 
-
-        _H44780_DATA_REG_ = 0xFF;
-        _H44780_DATA_PORT_ = command;
-        LCD_enable_us(200);
-        LCD_wait_ms(2);
-
-#else 
-        _H44780_DATA_REG_ = 0xF0;
-        _H44780_DATA_PORT_ = command;
-        LCD_enable_us(200);
-        LCD_wait_ms(2);
-        _H44780_DATA_PORT_ = _H44780_DATA_PORT_ << 4;
-        LCD_enable_us(200);
-        LCD_wait_ms(2);
-
-#endif
-        _H44780_DATA_PORT_ = 0x00;
-
-}
-
-void
-LCD_sendText (uint8_t character)
-{
-  setBIT (_H44780_RS_PORT_, H44780_RS_PIN);
-  LCD_sendCommand (character);
-  clearBIT (_H44780_RS_PORT_, H44780_RS_PIN);
-}
-
-void
-LCD_gotoxy (uint8_t x, uint8_t y) 
-{
-        uint8_t code;
-
-        if ( y <= H44780_ROWS )
-           code = 0x80 -1 + y;
-        else code = 0x7F + H44780_ROWS;
-        
-        if (x == 1) {
-         
-        }
-        
-#if H44780_LINES >= 2                   
-        else if (x == 2) {
-         code = code + 0x40;
-        }                 
-
- #if H44780_LINES >= 3  
-        else if (x == 3) { 
-         code = code + H44780_ROWS; 
-        }
-        else if (x == 4) {
-         code = code + H44780_ROWS + 0x40; 
-        }                 
- #endif    
-#endif             
-        else  code = H44780_CURSOR_HOME;
-        LCD_sendCommand(code);
-}
-
-void LCD_clearLine(uint8_t line)
-{
-        uint8_t i=1;
-        LCD_gotoxy(line,1);
-        while (i != H44780_ROWS + 1)
-        {
-         LCD_sendText(0x20);
-         i++;
-        }
-} 
-
-
-void
-LCD_init (void)
-{
-
-#if H44780_DATA_WIDTH == 8
-  _H44780_DATA_REG_ = 0xFF;
-#else  
-  _H44780_DATA_REG_ = 0xF0;
-#endif
-  setBIT (_H44780_CLOCK_REG_, H44780_CLOCK_PIN);
-  setBIT (_H44780_RS_REG_, H44780_RS_PIN);
-  _H44780_DATA_PORT_ = 0x00;
-  _delay_ms (15);
-  _H44780_DATA_PORT_ = 0x30;
-  LCD_enable_ms(5);
-  LCD_enable_us(150);
-#if H44780_DATA_WIDTH == 8
-  LCD_sendCommand(0x30 + _H44780_LINES_ );
-#else
-  LCD_sendCommand(0x20 + _H44780_LINES_ );
-#endif
-  LCD_enable_us(400);
-  LCD_sendCommand (H44780_DISPLAY_ON);
-  LCD_sendCommand (H44780_CURSOR_HOME);
-  LCD_sendCommand (H44780_BLINK_OFF);
-  LCD_sendCommand (H44780_CLEAR_DISPLAY);
-
-}
-
-
-uint8_t
-LCD_puts (char *string)
-{
-  uint8_t i = 0;
-  while (string[i] != '\0')
-    {
-      switch (string[i])
-	{
-	case '\n':
-	  LCD_sendCommand (0xC0);
-
-	case '\b':
-	  LCD_sendCommand (0x10);
-
-	default:
-
-	  LCD_sendText (string[i]);
-	}
-      i++;
-    }
-  return 0;
-}
 
 #endif   //     H44780_H
 
