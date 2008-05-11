@@ -29,8 +29,45 @@
 #include <stdlib.h>
 #include <avr/io.h>
 #include <stdint.h>
+#include <util/delay.h>
 
-#include "H44780io.h"
+/*
+ * Definition des valeurs par défaut:
+ * Afficheur 2x16 caratères connecté sur PORTB piloté en mode 4bits.
+ * Broche RS connectée sur la PIN2
+ * Broche CLOCK connectée sur la PIN3
+ */
+#if !defined (H44780_DISPLAY_TYPE)
+  #define H44780_DISPLAY_TYPE     5
+#endif
+
+#if !defined (H44780_DATA_PORT)
+  #define H44780_DATA_PORT        __PORTB__
+#endif
+
+#if !defined (H44780_CLOCK_PORT)
+  #define H44780_CLOCK_PORT       __PORTD__
+#endif
+
+#if !defined (H44780_CLOCK_PIN)
+  #define H44780_CLOCK_PIN        2
+#endif
+
+#if !defined (H44780_DATA_WIDTH)
+  #define H44780_DATA_WIDTH       4
+#endif
+
+#if !defined (H44780_RS_PORT)
+  #define H44780_RS_PORT          __PORTD__
+#endif
+
+#if !defined (H44780_RS_PIN)
+  #define H44780_RS_PIN           3
+#endif
+
+#if !defined (F_CPU)
+  #define F_CPU                   10000000
+#endif
 
 #undef __PORTA__
 #define         __PORTA__       0x00
@@ -47,7 +84,6 @@
 #undef clearBIT
 #define clearBIT(byte,bit)	( byte &= ~(1<<bit))
 
-#include <util/delay.h>
 
 /*
  *  Default values
@@ -283,6 +319,7 @@ void LCD_clearLine(uint8_t);
                                 _delay_us (delay); \
                                 clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN)
 #endif
+
 /*
  * H44780 command codes
  */
