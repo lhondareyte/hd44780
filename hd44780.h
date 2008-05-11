@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.h,v 1.0 2006/09/02 12:00:58 luc Exp luc $
+  *  $Id: H44780.h,v 1.1 2006/09/02 16:18:12 luc Exp luc $
   */
 
 #ifndef H44780_H
@@ -47,12 +47,7 @@
 #undef clearBIT
 #define clearBIT(byte,bit)	( byte &= ~(1<<bit))
 
-#if !defined (F_CPU)
-#define F_CPU   10000000
-#endif
 #include <util/delay.h>
-
-
 
 /*
  *  Default values
@@ -231,10 +226,11 @@
  * Prototypes
  */
 void LCD_puts (char *);
-void LCD_putc (char *);
+void LCD_nputs (char *, uint8_t);
 void LCD_init (void);
+void LCD_putc (char *);
 void LCD_sendCommand (uint8_t);
-void LCD_sendText (uint8_t);
+void LCD_sendText (char);
 void LCD_gotoxy(uint8_t,uint8_t);
 void LCD_clearLine(uint8_t);
 
@@ -242,11 +238,12 @@ void LCD_clearLine(uint8_t);
  *  Macros
  */
 
-#define LCD_clear()             LCD_sendCommand(H44780_CLEAR_DISPLAY)
+#define LCD_clrscr()            LCD_sendCommand(H44780_CLEAR_DISPLAY)
 #define LCD_blinkOn()           LCD_sendCommand(H44780_BLINK_ON)
 #define LCD_blinkOff()          LCD_sendCommand(H44780_BLINK_OFF)
 #define LCD_cursorOn()          LCD_sendCommand(H44780_CURSOR_ON)
 #define LCD_cursorOff()         LCD_sendCommand(H44780_CURSOR_OFF)
+#define LCD_gotoLine(x)         LCD_sendCommand(x)
 
 #if defined (H44780_RW_PORT_PRESENT)
  #define LCD_wait_us(delay)     setBIT(_H44780_RW_REG_, _H44780_RW_PIN); \
@@ -264,18 +261,26 @@ void LCD_clearLine(uint8_t);
 #endif
 
 #if defined (H44780_RW_PORT_PRESENT)
- #define LCD_enable_ms(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); LCD_wait(); \
+
+ #define LCD_enable_ms(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); \
+                                LCD_wait(); \
                                 clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN)
-#else             
- #define LCD_enable_ms(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); _delay_ms (delay); \
+#else 
+            
+ #define LCD_enable_ms(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); \
+                                _delay_ms (delay); \
                                 clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN)
 #endif
 
 #if defined (H44780_RW_PORT_PRESENT)
- #define LCD_enable_us(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); LCD_wait(); \
+
+ #define LCD_enable_us(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); \
+                                LCD_wait(); \
                                 clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
 #else             
- #define LCD_enable_us(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); _delay_us (delay); \
+
+ #define LCD_enable_us(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); \
+                                _delay_us (delay); \
                                 clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN)
 #endif
 /*
@@ -288,13 +293,18 @@ void LCD_clearLine(uint8_t);
 #define H44780_DISPLAY_OFF      0x08
 #define H44780_DISPLAY_ON       0x0C
 
+#define H44780_DISPLAY_SHIFT    0x18
+#define H44780_CURSOR_SHIFT     0x18
+
 #define H44780_BLINK_ON         0x0F
 #define H44780_BLINK_OFF        0x0C
 
 #define H44780_CURSOR_ON        0x0E
 #define H44780_CURSOR_OFF       0x0C
 
+#define LINE_1		        0x80
+#define LINE_2			0xC0
+#define LINE_3			0x94
+#define LINE_4      		0xB6
 
 #endif   //     H44780_H
-
-//
