@@ -1,5 +1,5 @@
  /*
-  * Copyright (c) 2006 Luc HONDAREYTE
+  * Copyright (c) 2006-2008 Luc HONDAREYTE
   * All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without
@@ -20,11 +20,11 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id: H44780.h,v 1.1 2006/09/02 16:18:12 luc Exp luc $
+  *  $Id: H44780.h,v 1.3 2008/05/11 13:07:50 luc Exp luc $
   */
 
 #ifndef H44780_H
-#define H44780_H
+ #define H44780_H
   
 #include <stdlib.h>
 #include <avr/io.h>
@@ -34,241 +34,228 @@
 /*
  * Definition des valeurs par défaut:
  * Afficheur 2x16 caratères connecté sur PORTB piloté en mode 4bits.
- * Broche RS connectée sur la PIN2
- * Broche CLOCK connectée sur la PIN3
+ * Broche RS connectée sur la PIND2
+ * Broche CLOCK connectée sur la PIND3
  */
-#if !defined (H44780_DISPLAY_TYPE)
-  #define H44780_DISPLAY_TYPE     5
+#if !defined ( H44780_DISPLAY_TYPE )
+  #define H44780_DISPLAY_TYPE     5			/* Afficheur 2x16 caractères par defaut */
 #endif
 
-#if !defined (H44780_DATA_PORT)
-  #define H44780_DATA_PORT        __PORTB__
+#if !defined ( H44780_DATA_PORT )
+  #define H44780_DATA_PORT        _H44780_PORTB_ 	/* Connexion sur PORTB */
 #endif
 
-#if !defined (H44780_CLOCK_PORT)
-  #define H44780_CLOCK_PORT       __PORTD__
+#if !defined ( H44780_CLOCK_PORT )
+  #define H44780_CLOCK_PORT       _H44780_PORTD_	/* CLOCK sur PORTD */
 #endif
 
-#if !defined (H44780_CLOCK_PIN)
-  #define H44780_CLOCK_PIN        2
+#if !defined ( H44780_CLOCK_PIN )
+  #define H44780_CLOCK_PIN        2			/* CLOCK sur PIND2 */
 #endif
 
-#if !defined (H44780_DATA_WIDTH)
-  #define H44780_DATA_WIDTH       4
+#if !defined ( H44780_DATA_WIDTH )
+  #define H44780_DATA_WIDTH       4			/* Connexion en 4bits */
 #endif
 
-#if !defined (H44780_RS_PORT)
-  #define H44780_RS_PORT          __PORTD__
+#if !defined ( H44780_RS_PORT )
+  #define H44780_RS_PORT          _H44780_PORTD_	/* RS sur PORTD */
 #endif
 
-#if !defined (H44780_RS_PIN)
-  #define H44780_RS_PIN           3
-#endif
+#if !defined ( H44780_RS_PIN )
+  #define H44780_RS_PIN           3			/* RS sur PIND3 */
+#endif	
 
-#if !defined (F_CPU)
-  #define F_CPU                   10000000
-#endif
-
-#undef __PORTA__
-#define         __PORTA__       0x00
-#undef __PORTB__
-#define         __PORTB__       0x01
-#undef __PORTC__
-#define         __PORTC__       0x02
-#undef __PORTD__
-#define         __PORTD__       0x03
-
-
-#undef setBIT
-#define setBIT(byte,bit)	( byte |= (1<<bit))
-#undef clearBIT
-#define clearBIT(byte,bit)	( byte &= ~(1<<bit))
+/*
+ * Le préprocesseur ne sait pas faire de comparaison de chaînes. Il sait seulement 
+ * faire des opérations arithmétiques.
+ * Ceci explique les définitions ci-dessous:
+ */
+#define _H44780_PORTA_		1
+#define _H44780_PORTB_		2
+#define _H44780_PORTC_		3
+#define _H44780_PORTD_		4
 
 
 /*
- *  Default values
+ *  Port de données - 4 ou 8 bits
  */
 
-#if H44780_DATA_WIDTH == 8
+#if ( H44780_DATA_WIDTH == 8 )
   #define _H44780_DATA_MASK_    0xFF
 #else 
- #if H44780_PORT_IS_LSB  == 1
+ #if ( H44780_PORT_IS_LSB  == 1 )
   #define _H44780_DATA_MASK_    0x0F
  #else
   #define _H44780_DATA_MASK_    0xF0
  #endif
 #endif
 
-#if !defined (H44780_DISPLAY_TYPE)
-        #warning "H44780_DISPLAY_TYPE is not defined"
-        #define H44780_DISPLAY_TYPE     5
-#endif
-
-#if !defined (H44780_DATA_PORT)
-        #warning "H44780_DATA_PORT is not defined"
-        #define H44780_DATA_PORT    B
-
-#endif
-
-#if H44780_DATA_PORT == __PORTB__
+#if ( H44780_DATA_PORT == _H44780_PORTB_ )
         #define _H44780_DATA_PORT_    PORTB
         #define _H44780_DATA_REG_     DDRB
 
-#elif H44780_DATA_PORT == __PORTD__
+#elif ( H44780_DATA_PORT == _H44780_PORTD_ )
         #define _H44780_DATA_PORT_    PORTD
         #define _H44780_DATA_REG_     DDRD
 
-#elif H44780_DATA_PORT == __PORTC__
+#elif ( H44780_DATA_PORT == _H44780_PORTC_ )
         #define _H44780_DATA_PORT_    PORTC
         #define _H44780_DATA_REG_     DDRC
 
-#elif H44780_DATA_PORT == __PORTA__
+#elif ( H44780_DATA_PORT == _H44780_PORTA_ )
         #define _H44780_DATA_PORT_    PORTA
         #define _H44780_DATA_REG_     DDRA
 #endif
 
-#define H44780_BUSY_FLAG        7	
+/*
+ * Port d'horloge 
+ */
 
-#if !defined(H44780_CLOCK_PORT)
-        #warning "H44780_CLOCK_PORT is not defined"
-        #define _H44780_CLOCK_PORT_    D
-        #define _H44780_CLOCK_REG_     D
-        #define H44780_CLOCK_PIN       2
-#endif
-
-#if   H44780_CLOCK_PORT == __PORTB__
+#if   ( H44780_CLOCK_PORT == _H44780_PORTA_ )
+        #define _H44780_CLOCK_PORT_    PORTA
+        #define _H44780_CLOCK_REG_     DDRA
+        
+#elif ( H44780_CLOCK_PORT == _H44780_PORTB_ )
         #define _H44780_CLOCK_PORT_    PORTB
         #define _H44780_CLOCK_REG_     DDRB
         
-#elif H44780_CLOCK_PORT == __PORTD__
-        #define _H44780_CLOCK_PORT_    PORTD
-        #define _H44780_CLOCK_REG_     DDRD
-        
-#elif H44780_CLOCK_PORT == __PORTC__
+#elif ( H44780_CLOCK_PORT == _H44780_PORTC_ )
         #define _H44780_CLOCK_PORT_    PORTC
         #define _H44780_CLOCK_REG_     DDRC
         
-#elif H44780_CLOCK_PORT == __PORTA__
-        #define _H44780_CLOCK_PORT_    PORTA
-        #define _H44780_CLOCK_REG_     DDRA
+#elif ( H44780_CLOCK_PORT == _H44780_PORTD_ )
+        #define _H44780_CLOCK_PORT_    PORTD
+        #define _H44780_CLOCK_REG_     DDRD
 #endif
 
-#if !defined (H44780_DATA_WIDTH)
-        #warning "H44780_DATA_WIDTH is not defined"
-        #define H44780_DATA_WIDTH    8
-#endif
+/*
+ * Port d'horloge 
+ */
 
-#if !defined (H44780_RS_PORT)
-        #warning "H44780_RS_PORT is not defined"
-        #define _H44780_RS_PORT_       D
-        #define _H44780_RS_REG_        D
-        #define H44780_RS_PIN          3
-#endif
-
-#if   H44780_RS_PORT == __PORTB__
+#if   ( H44780_RS_PORT == _H44780_PORTA_ )
+        #define _H44780_RS_PORT_    PORTA
+        #define _H44780_RS_REG_     DDRA
+        
+#elif ( H44780_RS_PORT == _H44780_PORTB_ )
         #define _H44780_RS_PORT_    PORTB
         #define _H44780_RS_REG_     DDRB
         
-#elif H44780_RS_PORT == __PORTD__
-        #define _H44780_RS_PORT_    PORTD
-        #define _H44780_RS_REG_     DDRD
-        
-#elif H44780_RS_PORT == __PORTC__
+#elif ( H44780_RS_PORT == _H44780_PORTC_ )
         #define _H44780_RS_PORT_    PORTC
         #define _H44780_RS_REG_     DDRC
         
-#elif H44780_RS_PORT == __PORTA__
-        #define _H44780_RS_PORT_    PORTA
-        #define _H44780_RS_REG_     DDRA
+#elif ( H44780_RS_PORT == _H44780_PORTD_ )
+        #define _H44780_RS_PORT_    PORTD
+        #define _H44780_RS_REG_     DDRD
 #endif
 
-#if !defined (H44780_RW_PORT) && defined (H44780_RW_PORT_PRESENT)
-        #warning "H44780_RW_PORT is present but not defined"
+#if !defined ( H44780_RW_PORT ) && defined ( H44780_RW_PORT_PRESENT )
+        #warning "H44780_RW_PORT is connect but not defined"
         #define H44780_RW_PORT       4
 #endif
 
-#if defined (H44780_RW_PORT_PRESENT)
-#if   H44780_RW_PORT == __PORTB__
+#if defined ( H44780_RW_PORT_PRESENT )
+   #if   ( H44780_RW_PORT == _H44780_PORTA_ )
+        #define _H44780_RW_PORT_    PORTA
+        #define _H44780_RW_REG_     DDRA
+        
+   #elif ( H44780_RW_PORT == _H44780_PORTB_ )
         #define _H44780_RW_PORT_    PORTB
         #define _H44780_RW_REG_     DDRB
-        
-#elif H44780_RW_PORT == __PORTD__
-        #define _H44780_RW_PORT_    PORTD
-        #define _H44780_RW_REG_     DDRD
-        
-#elif H44780_RW_PORT == __PORTC__
+          
+   #elif ( H44780_RW_PORT == _H44780_PORTC_ )
         #define _H44780_RW_PORT_    PORTC
         #define _H44780_RW_REG_     DDRC
         
-#elif H44780_RW_PORT == __PORTA__
-        #define _H44780_RW_PORT_    PORTA
-        #define _H44780_RW_REG_     DDRA
+   #elif ( H44780_RW_PORT == _H44780_PORTD_ )
+        #define _H44780_RW_PORT_    PORTD
+        #define _H44780_RW_REG_     DDRD
+   #endif
 #endif
 
-#endif
 /*
  *  Display types
  */
-#if !defined (H44780_DISPLAY_TYPE)
-        #warning "H44780_DISPLAY_TYPE is not defined"
-        #define H44780_DISPLAY_TYPE       4
-#endif
-
-#if   H44780_DISPLAY_TYPE == 1
+#if    ( H44780_DISPLAY_TYPE == 1 )   /* Afficheur 5x2 caractères */
         #define H44780_ROWS     5
         #define H44780_LINES    2
-
         
-#elif H44780_DISPLAY_TYPE == 2
+#elif  ( H44780_DISPLAY_TYPE == 2 )   /* Afficheur 8x1 caractères */
         #define H44780_ROWS     8
         #define H44780_LINES    1
         
-#elif H44780_DISPLAY_TYPE == 3
+#elif  ( H44780_DISPLAY_TYPE == 3 )   /* Afficheur 8x2 caractères */
         #define H44780_ROWS     8
         #define H44780_LINES    2
         
-#elif H44780_DISPLAY_TYPE == 4
+#elif  ( H44780_DISPLAY_TYPE == 4 )   /* Afficheur 16x1 caractères */
         #define H44780_ROWS     16
         #define H44780_LINES    1
         
-#elif H44780_DISPLAY_TYPE == 5
+#elif  ( H44780_DISPLAY_TYPE == 5 )   /* Afficheur 16x2 caractères */
         #define H44780_ROWS     16
         #define H44780_LINES    2
         
-#elif H44780_DISPLAY_TYPE == 6
+#elif  ( H44780_DISPLAY_TYPE == 6 )   /* Afficheur 16x4 caractères */
         #define H44780_ROWS     16
         #define H44780_LINES    4
         
-#elif H44780_DISPLAY_TYPE == 7
+#elif  ( H44780_DISPLAY_TYPE == 7 )   /* Afficheur 20x2 caractères */
         #define H44780_ROWS     20
         #define H44780_LINES    2
         
-#elif H44780_DISPLAY_TYPE == 8
+#elif  ( H44780_DISPLAY_TYPE == 8 )   /* Afficheur 20x4 caractères */
         #define H44780_ROWS     20
         #define H44780_LINES    4
         
-#elif H44780_DISPLAY_TYPE == 9
+#elif  ( H44780_DISPLAY_TYPE == 9 )   /* Afficheur 40x2 caractères */
         #define H44780_ROWS     40
         #define H44780_LINES    2
 #endif
 
-#if H44780_LINES <= 1
-        #define _H44780_LINES_          0x00
+#if ( H44780_LINES <= 1 )
+        #define H44780_LINES_OFFSET    0
 #else
-        #define _H44780_LINES_          0x08
+        #define H44780_LINES_OFFSET    8
 #endif
+
+#define H44780_BUSY_FLAG        7	/* Pourquoi doit-on le définir? */
+
+/*
+ * H44780 command codes
+ */
+
+#define H44780_CLEAR_DISPLAY    0x01		/* Effacement de l'écran */
+#define H44780_CURSOR_HOME      0x02		/* Positionne le curseur en haut à gauche */
+
+#define H44780_DISPLAY_OFF      0x08		/* Eteint l'écran */
+#define H44780_DISPLAY_ON       0x0C		/* Allume l'écran */
+
+#define H44780_DISPLAY_SHIFT    0x18		/* Décalage à droite */
+#define H44780_CURSOR_SHIFT     0x18		/* Décalage à droite */
+
+#define H44780_BLINK_ON         0x0F		/* Curseur clignotant */
+#define H44780_BLINK_OFF        0x0C		/* Curseur fixe */
+
+#define H44780_CURSOR_ON        0x0E		/* curseur visible */
+#define H44780_CURSOR_OFF       0x0C		/* curseur invisible */
+
+#define LINE_1		        0x80		/* Adresse 1er caractère de la ligne 1 */
+#define LINE_2			0xC0		/* Adresse 1er caractère de la ligne 2 */
+#define LINE_3			0x94		/* Adresse 1er caractère de la ligne 3 */
+#define LINE_4      		0xB6		/* Adresse 1er caractère de la ligne 4 */
 
 /*
  * Prototypes
  */
-void LCD_puts (char *);
-void LCD_nputs (char *, uint8_t);
-void LCD_init (void);
-void LCD_putc (char *);
-void LCD_sendCommand (uint8_t);
-void LCD_sendText (char);
-void LCD_gotoxy(uint8_t,uint8_t);
-void LCD_clearLine(uint8_t);
+void LCD_init (void);				/* Initialisation de l'afficheur */
+void LCD_sendCommand (uint8_t);			/* Envoi d'une commande vers l'afficheur */
+void LCD_puts (char *);				/* Affichage d'un caractère */
+void LCD_nputs (char *, uint8_t);		/* Affichage de n caractères */
+void LCD_putc (char *);				/* Affichage d'un caratère */
+void LCD_sendText (char);			/* Affichage d'un caratère */
+void LCD_gotoxy(uint8_t,uint8_t);		/* Positionne le curseur en x,y */
+void LCD_clearLine(uint8_t);			/* Efface la ligne courante */
 
 /*
  *  Macros
@@ -279,69 +266,39 @@ void LCD_clearLine(uint8_t);
 #define LCD_blinkOff()          LCD_sendCommand(H44780_BLINK_OFF)
 #define LCD_cursorOn()          LCD_sendCommand(H44780_CURSOR_ON)
 #define LCD_cursorOff()         LCD_sendCommand(H44780_CURSOR_OFF)
-#define LCD_gotoLine(x)         LCD_sendCommand(x)
+//#define LCD_gotoLine(x)         LCD_sendCommand(x)
+#define LCD_switchOn()          LCD_sendCommand(H44780_DISPLAY_ON)
+#define LCD_switchOff()         LCD_sendCommand(H44780_DISPLAY_OFF)
+
 
 #if defined (H44780_RW_PORT_PRESENT)
- #define LCD_wait_us(delay)     setBIT(_H44780_RW_REG_, _H44780_RW_PIN); \
+ #define LCD_wait_ms()	        _H44780_RW_REG_, |= (1<< _H44780_RW_PIN); \
                                 loop_until_bit_is_clear(_H44780_DATA_PORT_,H44780_BUSY_FLAG); \
-                                clearBIT(_H44780_RW_REG_, _H44780_RW_PIN)
-#else
- #define LCD_wait_us(delay)     _delay_us(delay)
-#endif
-#if defined (H44780_RW_PORT_PRESENT)
- #define LCD_wait_ms(delay)     setBIT(_H44780_RW_REG_, _H44780_RW_PIN); \
+                                _H44780_RW_REG_ &= ~(1<<H44780_RW_PIN)
+
+ #define LCD_wait_us()          _H44780_RW_REG_ |= (1<< _H44780_RW_PIN); \
                                 loop_until_bit_is_clear(_H44780_DATA_PORT_,H44780_BUSY_FLAG); \
-                                clearBIT(_H44780_RW_REG_, H44780_RW_PIN)
+                                _H44780_RW_REG_ &= ~(1<<H44780_RW_PIN)
+
+ #define LCD_enable_ms()        _H44780_CLOCK_PORT_, |= (1<< H44780_CLOCK_PIN); \
+                                LCD_wait(); \
+                                _H44780_CLOCK_PORT_, &= ~(1<<H44780_CLOCK_PIN)
+
+ #define LCD_enable_us()        _H44780_CLOCK_PORT_, |= (1<<H44780_CLOCK_PIN); \
+                                LCD_wait(); \
+                                _H44780_CLOCK_PORT_, &= ~(1<<H44780_CLOCK_PIN)
 #else
- #define LCD_wait_ms(delay)     _delay_ms(delay)
+ #define LCD_wait_ms()          _delay_ms()
+
+ #define LCD_wait_us()          _delay_us()
+
+ #define LCD_enable_ms()        _H44780_CLOCK_PORT_ |= (1<< H44780_CLOCK_PIN); \
+                                _delay_ms (); \
+                                _H44780_CLOCK_PORT_ &= ~(1<<H44780_CLOCK_PIN)
+
+ #define LCD_enable_us()        _H44780_CLOCK_PORT_ |= (1<<H44780_CLOCK_PIN); \
+                                _delay_us (); \
+                                _H44780_CLOCK_PORT_ &= ~(1<<H44780_CLOCK_PIN)
 #endif
-
-#if defined (H44780_RW_PORT_PRESENT)
-
- #define LCD_enable_ms(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); \
-                                LCD_wait(); \
-                                clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN)
-#else 
-            
- #define LCD_enable_ms(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); \
-                                _delay_ms (delay); \
-                                clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN)
-#endif
-
-#if defined (H44780_RW_PORT_PRESENT)
-
- #define LCD_enable_us(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); \
-                                LCD_wait(); \
-                                clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN);
-#else             
-
- #define LCD_enable_us(delay)   setBIT (_H44780_CLOCK_PORT_, H44780_CLOCK_PIN); \
-                                _delay_us (delay); \
-                                clearBIT(_H44780_CLOCK_PORT_, H44780_CLOCK_PIN)
-#endif
-
-/*
- * H44780 command codes
- */
-
-#define H44780_CLEAR_DISPLAY    0x01
-#define H44780_CURSOR_HOME      0x02
-
-#define H44780_DISPLAY_OFF      0x08
-#define H44780_DISPLAY_ON       0x0C
-
-#define H44780_DISPLAY_SHIFT    0x18
-#define H44780_CURSOR_SHIFT     0x18
-
-#define H44780_BLINK_ON         0x0F
-#define H44780_BLINK_OFF        0x0C
-
-#define H44780_CURSOR_ON        0x0E
-#define H44780_CURSOR_OFF       0x0C
-
-#define LINE_1		        0x80
-#define LINE_2			0xC0
-#define LINE_3			0x94
-#define LINE_4      		0xB6
 
 #endif   //     H44780_H
