@@ -20,7 +20,7 @@
   * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  *  $Id$
+  *  $Id: LCD_init.c,v 0.9 2006/09/16 15:03:30 luc Exp luc $
   */
 
 #ifndef H44780_H
@@ -35,8 +35,8 @@ void LCD_init (void)
 {
 
         _H44780_DATA_REG_ = _H44780_DATA_MASK_;
-        setBIT (_H44780_CLOCK_REG_, H44780_CLOCK_PIN);
-        setBIT (_H44780_RS_REG_, H44780_RS_PIN);
+        _H44780_CLOCK_REG_ |= (1<< H44780_CLOCK_PIN);
+ 	_H44780_RS_REG_ |= (1<< H44780_RS_PIN);
         _H44780_DATA_PORT_ = 0x00;
         _delay_ms (15);
         
@@ -52,9 +52,9 @@ void LCD_init (void)
 
 #if H44780_DATA_WIDTH == 8
 
-        LCD_sendCommand(0x30 + _H44780_LINES_ );
+        LCD_sendCommand( 0x30 + H44780_LINES_OFFSET );
  #else
-        LCD_sendCommand(0x20 + _H44780_LINES_ );
+        LCD_sendCommand( 0x20 + H44780_LINES_OFFSET );
 
 #endif
         LCD_enable_us(400);
