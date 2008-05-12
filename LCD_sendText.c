@@ -33,7 +33,7 @@
 
 void LCD_sendText (char c)
 {
-        setBIT (_H44780_RS_PORT_, H44780_RS_PIN);
+        _H44780_RS_PORT_ |= (1<<H44780_RS_PIN);
         LCD_sendCommand (c);
-        clearBIT (_H44780_RS_PORT_, H44780_RS_PIN);
+        _H44780_RS_PORT_ &= ~(1<<H44780_RS_PIN);
 }
