@@ -2,7 +2,6 @@
   * Copyright (c) 2006-2012 Luc HONDAREYTE
   * All rights reserved.
   *
-  *  $Id: LCD_puts.c,v 0.9 2006/09/16 15:03:34 luc Exp luc $
   */
 
 
