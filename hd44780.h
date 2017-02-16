@@ -276,7 +276,7 @@ void LCD_ioctl (uint8_t);		/* Envoi d'une commande vers le LCD */
 void LCD_putc (char);			/* Envoi d'un caractère vers le LCD */
 void LCD_puts (const char *);			/* Affichage d'un caractère */
 void LCD_gotoxy(uint8_t,uint8_t);	/* Positionne le curseur en x,y */
-void LCD_clrline(void);			/* Efface la ligne courante */
+void LCD_clrline(uint8_t);		/* Efface la ligne n */
 void LCD_validate(void);		/* valide une commande */
 void LCD_wait(void);			/* Gestion des delais */
 
