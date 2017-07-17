@@ -8,7 +8,7 @@ Tested Ok with
  * atmega32u4
 
 See differents file to set hd44780 pinout. 
-# Hello, world!
+### Hello, world!
 
 You should copy all files in subdirectory (eg. hd44780) of your project. 
 ```
@@ -20,6 +20,7 @@ You should copy all files in subdirectory (eg. hd44780) of your project.
        DATA   = 0-4 PORTD
        ENABLE = PIN3 PORTD
        RS     = PIN4 PORTC
+       RW to GND
 */
 
 #define H44780_DISPLAY_TYPE 	10
