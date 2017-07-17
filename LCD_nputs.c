@@ -26,13 +26,20 @@
  *   SUCH DAMAGE.
  */
  /*
-  * Copyright (c) 2013 Luc HONDAREYTE
+  * Copyright (c) 2006-2012 Luc HONDAREYTE
   */
 
 
-#include "hd44780.h"
+#ifndef __HD44780_H__
+ #include "hd44780.h"
+#endif
 
-void LCD_wait(void)
+void LCD_nputs (const char *s, uint8_t b, uint8_t n)
 {
-	_delay_us(400);
+  register char c;
+  while  ( (c = *s++ ) )
+    {
+	if ( c == 0x0a ) LCD_gotoxy(2,1);
+	else LCD_putc (c);
+    }
 }
