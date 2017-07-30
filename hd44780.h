@@ -300,7 +300,7 @@ void LCD_gotoxy(uint8_t,uint8_t);	/* Positionne le curseur en x,y */
 void LCD_clrline(uint8_t);		/* Efface la ligne n */
 void LCD_validate(void);		/* valide une commande */
 void LCD_wait(void);			/* Gestion des delais */
-void LCD_nputs(const char *, uint8_t, uint8_t)
+void LCD_nputs(const char *, uint8_t, uint8_t);
 
 /*
  *  Macros
