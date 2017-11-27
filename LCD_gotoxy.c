@@ -1,5 +1,5 @@
 /* 
- *   Copyright (c)2006-2017,  Luc Hondareyte <lhondareyte_AT_laposte.net>.
+ *   Copyright (c)2006-2017,  Luc Hondareyte 
  *   All rights reserved.
  *     
  *   Redistribution and use in source and binary forms, with or without 
@@ -8,10 +8,6 @@
  *  
  *   1. Redistributions of source code must retain the above copyright 
  *      notice, this list of conditions and the following disclaimer.
- *  
- *   2. redistributions in binary form must reproduce the above copyright 
- *      notice, this list of conditions and the following disclaimer in 
- *      the documentation and/or other materials provided with the distribution.
  *  
  *   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
  *   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
@@ -25,9 +21,6 @@
  *   OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
  *   SUCH DAMAGE.
  */
- /*
-  * Copyright (c) 2006-2012 Luc HONDAREYTE
-  */
 
 #ifndef __HD44780_H__
  #include "hd44780.h"
