@@ -24,7 +24,7 @@ You should copy all files in subdirectory (eg. hd44780) of your project.
  */
 
 #define H44780_DISPLAY_TYPE 	10              /* 2x24 characters type  */
-#define H44780_DATA_WITDH 	4               /* 4bits mode            */
+#define H44780_DATA_WIDTH 	4               /* 4bits mode            */
 #define H44780_PORT_IS_LSB 	0               /* DATA = PIN[4-7] PORTD */
 #define H44780_DISPLAY_PORT 	_H44780_PORTD_
 #define H44780_ENABLE_PIN 	3               /* ENABLE on PIN3 PORTD  */
