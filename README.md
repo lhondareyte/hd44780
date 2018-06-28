@@ -7,7 +7,7 @@ Tested Ok with
  * atmega32u2
  * atmega32u4
 
-See differents file to set hd44780 pinout. 
+See differents files to set hd44780 pinout. 
 ### Hello, world!
 
 You should copy all files in subdirectory (eg. hd44780) of your project. 
@@ -16,7 +16,7 @@ You should copy all files in subdirectory (eg. hd44780) of your project.
 #include "hd44780/hd44780.h"
 
 /* 
- * 2x24 character in 4 bits mode connected like follow :
+ * 2x24 character in 4 bits mode connected as follow :
  *     DATA   = PIN[4-7] PORTD
  *     ENABLE = PIN3 PORTD
  *     RS     = PIN4 PORTC
