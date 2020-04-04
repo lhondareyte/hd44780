@@ -13,7 +13,6 @@ See differents files to set hd44780 pinout.
 You should copy all files in subdirectory (eg. hd44780) of your project. 
 ```
 #include <avr.h>
-#include "hd44780/hd44780.h"
 
 /* 
  * 2x24 character in 4 bits mode connected as follow :
@@ -32,11 +31,13 @@ You should copy all files in subdirectory (eg. hd44780) of your project.
 #define H44780_RS_PIN	 	4               /* RS on PIN4 PORTC      */
 #define H44780_RS_PORT	 	_H44780_PORTC_
 
+#include "hd44780/hd44780.h"
+
 int main(void) {
 	LCD_init();
 	LCD_puts("Hello, world!\n");
 	_delay_ms(1000);
-	LCD_clrsrc();
+	LCD_clrscr();
 	LCD_puts("   Goodbye\n");
 	LCD_puts("  Cruel World!  ");
 	while (1) {}
