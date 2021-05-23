@@ -55,6 +55,4 @@ void LCD_gotoxy (uint8_t x, uint8_t y)
 #endif
 	LCD_ioctl(cur);
 	LCD_wait();
-	LCD_wait();
-	LCD_wait();
 }
