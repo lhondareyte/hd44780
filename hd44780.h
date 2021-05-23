@@ -309,6 +309,7 @@ void LCD_nputs(const char *, uint8_t, uint8_t);
 #define LCD_gotoLine(x)         LCD_ioctl(x)
 #define LCD_DisplayOn()         LCD_ioctl(H44780_DISPLAY_ON)
 #define LCD_DisplayOff()        LCD_ioctl(H44780_DISPLAY_OFF)
+#define LCD_wait()              _delay_ms(1)
 
 
 #if ( H44780_DATA_WIDTH == 4 )

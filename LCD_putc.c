@@ -40,12 +40,10 @@ void LCD_putc (char c)
 	WriteNibble(_H44780_DATA_PORT_, c);
 	_H44780_RS_PORT_ |= (1<< H44780_RS_PIN);
         LCD_validate();
-	LCD_wait();
 #else
 	_H44780_RS_PORT_ |= (1<< H44780_RS_PIN);
         _H44780_DATA_PORT_ = t;
         LCD_validate();
-	LCD_wait();
 #endif
 	LCD_wait();
 }
