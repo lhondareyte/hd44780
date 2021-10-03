@@ -4,6 +4,7 @@ Tested Ok with
  * at90s2313
  * attiny2313, attiny4313
  * atmega8
+ * atmega8u2
  * atmega32u2
  * atmega32u4
 
@@ -13,6 +14,7 @@ See differents files to set hd44780 pinout.
 You should copy all files in subdirectory (eg. hd44780) of your project. 
 ```
 #include <avr.h>
+#include "hd44780/hd44780.h"
 
 /* 
  * 2x24 character in 4 bits mode connected as follow :
