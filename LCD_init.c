@@ -25,7 +25,6 @@
 
 void LCD_init (void)
 {
-
 	/* Initialisaion des ports */
 	
 	#if H44780_DATA_WIDTH == 8
@@ -45,7 +44,6 @@ void LCD_init (void)
         _delay_ms(42);
 
 	/* Debut d'initialisation HD44780 */
-
 	WriteNibble(_H44780_DATA_PORT_, 0x03);
         _H44780_ENABLE_PORT_ &= ~(1<< H44780_ENABLE_PIN);
         _H44780_RS_PORT_ &= ~(1<< H44780_RS_PIN);
@@ -60,7 +58,6 @@ void LCD_init (void)
         LCD_ioctl( 0x30 + H44780_LINES_ARG );
 	LCD_validate();
 #else
-
 	/* Envoi du mode 4bits */
 	WriteNibble(_H44780_DATA_PORT_, 0x02);
         _H44780_ENABLE_PORT_ &= ~(1<< H44780_ENABLE_PIN);
@@ -81,5 +78,4 @@ void LCD_init (void)
         LCD_ioctl (H44780_CLEAR_DISPLAY);
         LCD_ioctl (H44780_CURSOR_RIGHT);
         LCD_ioctl (H44780_CURSOR_HOME);
-
 }
