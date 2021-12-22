@@ -29,7 +29,7 @@ void LCD_gotoxy (uint8_t x, uint8_t y)
 {
 	if ( x > H44780_LINES || y > H44780_ROWS ) return;
         uint8_t cur= H44780_DDRAM_L1 - 1;
-	if      ( x == 1 ) {
+	if ( x == 1 ) {
 		cur += y;
 	}
 	else if ( x == 2 ) {	
