@@ -1,4 +1,4 @@
-Yet another HD77480 library for AVR
+## Yet another HD44780 library for AVR
 
 Tested Ok with 
 
@@ -16,9 +16,6 @@ See differents files to set hd44780 pinout.
 You should copy all files in subdirectory (eg. hd44780) of your project. 
 
 ```
-#include <avr.h>
-#include "hd44780/hd44780.h"
-
 /* 
  * 2x24 character in 4 bits mode connected as follow :
  *     DATA   = PIN[4-7] PORTD
@@ -36,6 +33,9 @@ You should copy all files in subdirectory (eg. hd44780) of your project.
 #define H44780_RS_PIN           4               /* RS on PIN4 PORTC      */
 #define H44780_RS_PORT          _H44780_PORTC_
 
+#include <avr/io.h>
+#include <stdlib.h>
+#include <util/delay.h>
 #include "hd44780/hd44780.h"
 
 int main(void) {
@@ -49,3 +49,33 @@ int main(void) {
 	return 0;
 }
 ```
+A Makefile to build previous ```example.c```
+
+```
+include hd44780/hd44780.mk
+
+FIRMWARE  = example
+MCU       = atmega328p
+HZ	  = 16000000
+
+CC        = avr-gcc
+OBJCOPY   = avr-objcopy
+CFLAGS   += -Os -D F_CPU=$(HZ)
+CFLAGS   += -g -mmcu=$(MCU) -Wall -Wstrict-prototypes
+SOURCES  += example.c $(HD44780_SOURCES)
+OBJECTS   = example.o $(HD44780_OBJECTS)
+
+default: $(FIRMWARE).out
+        $(OBJCOPY) -R .eeprom -O ihex $(FIRMWARE).out  \
+                $(FIRMWARE).hex
+
+$(FIRMWARE).out: $(OBJECTS)
+	$(CC) $(CFLAGS) -o $(FIRMWARE).out \
+		-Wl,-Map,$(FIRMWARE).map $(OBJECTS)
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f *.o *.hex *map 
+```
+

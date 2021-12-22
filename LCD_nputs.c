@@ -28,8 +28,10 @@
 void LCD_nputs (const char *s, uint8_t b, uint8_t n)
 {
 	register char c;
-	while  ( (c = *s++ ) ) {
-		if ( c == 0x0a ) LCD_gotoxy(2,1);
-		else LCD_putc (c);
+	while (c = *s++) {
+		if (c == 0x0a)
+			LCD_gotoxy(2,1);
+		else
+			LCD_putc (c);
 	}
 }
