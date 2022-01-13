@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2017 Luc Hondareyte
+ * Copyright (c) 2006-2022 Luc Hondareyte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,13 +25,15 @@
  #include "hd44780.h"
 #endif
 
-void LCD_nputs (const char *s, uint8_t b, uint8_t n)
+void LCD_nputs (const char *s, uint8_t n)
 {
-	register char c;
-	while (c = *s++) {
-		if (c == 0x0a)
-			LCD_gotoxy(2,1);
-		else
-			LCD_putc (c);
-	}
+  register char c;
+  while (n) {
+	n--;
+  	c = *s++;
+	if ( c == 0x0a )
+		LCD_gotoxy(2,1);
+	else
+		LCD_putc (c);
+    }
 }
