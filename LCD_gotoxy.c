@@ -27,23 +27,24 @@
 
 void LCD_gotoxy (uint8_t x, uint8_t y) 
 {
-	if ( x > H44780_LINES || y > H44780_ROWS ) return;
+	if (x > H44780_LINES || y > H44780_ROWS)
+		return;
         uint8_t cur= H44780_DDRAM_L1 - 1;
-	if ( x == 1 ) {
+	if (x == 1) {
 		cur += y;
 	}
-	else if ( x == 2 ) {	
+	else if (x == 2) {	
 		cur += y;
 		cur += H44780_DDRAM_L2;
 	}
-#if ( H44780_LINES >= 3 ) 
-	else if ( x == 3 ) {	
+#if (H44780_LINES >= 3) 
+	else if (x == 3) {	
 		cur += y;
 		cur += H44780_DDRAM_L3;
 	}
 #endif
-#if ( H44780_LINES >= 4 ) 
-	else if ( x == 4 ) {	
+#if (H44780_LINES >= 4) 
+	else if (x == 4) {	
 		cur += y;
 		cur += H44780_DDRAM_L4;
 	}
