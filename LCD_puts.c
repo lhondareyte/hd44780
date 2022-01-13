@@ -28,7 +28,7 @@
 void LCD_puts (const char *s)
 {
 	register char c;
-	while (c = *s++) {
+	while ((c = *s++)) {
 		if (c == 0x0a)
 			LCD_gotoxy(2,1);
 		else
