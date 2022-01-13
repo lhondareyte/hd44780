@@ -254,7 +254,7 @@
 
 #define H44780_CLEAR_DISPLAY    0x01	/* clear screen */
 #define H44780_CURSOR_HOME      0x02	/* Return home */
-#define H44780_CURSOR_RIGHT     0x06	/* Deplacement du curseur vers la droite */
+#define H44780_CURSOR_RIGHT     0x06	/* Right shift cursor */
 
 #define H44780_DISPLAY_OFF      0x08	/* Display On/Off */
 #define H44780_DISPLAY_ON       0x08	
@@ -263,12 +263,14 @@
 #define H44780_CURSOR_ON        0x0E    /* Display on, steady cursor */
 #define H44780_BLINK_ON         0x0F    /* Display on, blinking cursor */
 
-#define LINE_1		        0x80	/* Adresse 1er caractère de la ligne 1 */
-#define LINE_2			0xC0	/* Adresse 1er caractère de la ligne 2 */
-#define LINE_3			0x94	/* Adresse 1er caractère de la ligne 3 */
-#define LINE_4      		0xB6	/* Adresse 1er caractère de la ligne 4 */
+#define LINE_1		        0x80	/* first line adress  */
+#define LINE_2			0xC0	/* etc.               */
+#define LINE_3			0x94
+#define LINE_4      		0xB6
 
 #if defined (__BLINK_SUPPORT__)
+
+// unfinished
 
 /* Bit field for blink attribut */
 struct {
@@ -279,21 +281,21 @@ struct {
 #endif // __BLINK_SUPPORT__
 
 /* Prototypes */
-void LCD_init (void);			/* Initialisation du LCD */
-void LCD_ioctl (uint8_t);		/* Envoi d'une commande vers le LCD */
-void LCD_putc (char);			/* Envoi d'un caractère vers le LCD */
-void LCD_puts (const char *);		/* Affichage d'un caractère */
-void LCD_gotoxy(uint8_t,uint8_t);	/* Positionne le curseur en x,y */
-void LCD_clrline(uint8_t);		/* Efface la ligne n */
-void LCD_validate(void);		/* valide une commande */
-void LCD_wait(void);			/* Gestion des delais */
+void LCD_init (void);			/* Call it first  */
+void LCD_ioctl (uint8_t);		/* Send command to LCD */
+void LCD_putc (char);			/* Send char to LCD */
+void LCD_puts (const char *);		/* Send string to LCD $/
+void LCD_gotoxy(uint8_t,uint8_t);	/* Set cursor position */
+void LCD_clrline(uint8_t);		/* Clear current line */
+void LCD_validate(void);		/* Command validate */
+void LCD_wait(void);			/* Internal delays */
 void LCD_nputs(const char *, uint8_t);
+
+#if defined (__BLINK_SUPPORT__)
 void LCD_refresh(void);
+#endif
 
-/*
- *  Macros
- */
-
+//  Macros
 #define LCD_clrscr()            LCD_ioctl(H44780_CLEAR_DISPLAY)
 #define LCD_blinkCursor()       LCD_ioctl(H44780_BLINK_ON)
 #define LCD_fixCursor()         LCD_ioctl(H44780_BLINK_OFF)
@@ -304,7 +306,6 @@ void LCD_refresh(void);
 #define LCD_DisplayOff()        LCD_ioctl(H44780_DISPLAY_OFF)
 #define LCD_wait()        	_delay_ms(1)
 
-
 #if ( H44780_DATA_WIDTH == 4 )
 #if H44780_PORT_IS_LSB == 1
 #define WriteNibble(p,n)	p=(p & 0xf0) | ( n & 0xf)
@@ -312,7 +313,6 @@ void LCD_refresh(void);
 #if H44780_PORT_IS_LSB == 0
 #define WriteNibble(p,n)	p=(p & 0x0f) | ((n & 0xf) << 4)
 #endif
-#else
 #endif
 
 #endif   //     __HD44780_H__
