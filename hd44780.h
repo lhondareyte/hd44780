@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2021 Luc Hondareyte
+ * Copyright (c) 2006-2022 Luc Hondareyte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -287,7 +287,7 @@ void LCD_gotoxy(uint8_t,uint8_t);	/* Positionne le curseur en x,y */
 void LCD_clrline(uint8_t);		/* Efface la ligne n */
 void LCD_validate(void);		/* valide une commande */
 void LCD_wait(void);			/* Gestion des delais */
-void LCD_nputs(const char *, uint8_t, uint8_t);
+void LCD_nputs(const char *, uint8_t);
 void LCD_refresh(void);
 
 /*
