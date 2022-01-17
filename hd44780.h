@@ -263,7 +263,7 @@
 #define H44780_CURSOR_ON        0x0E    /* Display on, steady cursor */
 #define H44780_BLINK_ON         0x0F    /* Display on, blinking cursor */
 
-#define LINE_1		        0x80	/* first line adress  */
+#define LINE_1		        0x80	/* first line address  */
 #define LINE_2			0xC0	/* etc.               */
 #define LINE_3			0x94
 #define LINE_4      		0xB6
