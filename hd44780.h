@@ -284,7 +284,7 @@ struct {
 void LCD_init (void);			/* Call it first  */
 void LCD_ioctl (uint8_t);		/* Send command to LCD */
 void LCD_putc (char);			/* Send char to LCD */
-void LCD_puts (const char *);		/* Send string to LCD $/
+void LCD_puts (const char *);		/* Send string to LCD */
 void LCD_gotoxy(uint8_t,uint8_t);	/* Set cursor position */
 void LCD_clrline(uint8_t);		/* Clear current line */
 void LCD_validate(void);		/* Command validate */
