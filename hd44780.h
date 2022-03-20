@@ -259,7 +259,7 @@
 #define H44780_DISPLAY_OFF      0x08	/* Display On/Off */
 #define H44780_DISPLAY_ON       0x08	
 #define H44780_DISPLAY_SHIFT    0x18	/* Display or cursor shift */
-#define H44780_CURSOR_OFF       0x0C    /* Display on, crusor off */
+#define H44780_CURSOR_OFF       0x0C    /* Display on, cursor off */
 #define H44780_CURSOR_ON        0x0E    /* Display on, steady cursor */
 #define H44780_BLINK_ON         0x0F    /* Display on, blinking cursor */
 
@@ -298,7 +298,7 @@ void LCD_refresh(void);
 //  Macros
 #define LCD_clrscr()            LCD_ioctl(H44780_CLEAR_DISPLAY)
 #define LCD_blinkCursor()       LCD_ioctl(H44780_BLINK_ON)
-#define LCD_fixCursor()         LCD_ioctl(H44780_BLINK_OFF)
+#define LCD_fixCursor()         LCD_ioctl(H44780_CURSOR_ON)
 #define LCD_cursorOn()          LCD_ioctl(H44780_CURSOR_ON)
 #define LCD_cursorOff()         LCD_ioctl(H44780_CURSOR_OFF)
 #define LCD_gotoLine(x)         LCD_ioctl(x)
