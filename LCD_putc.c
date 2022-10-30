@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2017 Luc Hondareyte
+ * Copyright (c) 2006-2022 Luc Hondareyte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@
 
 void LCD_putc (char c)
 {
-#if H44780_DATA_WIDTH == 4 
+#ifdef H44780_4BITS_MODE
 	char t;
 	t = c >> 4;
 	_H44780_ENABLE_PORT_ &= ~(1<< H44780_ENABLE_PIN);

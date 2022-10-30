@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006-2017 Luc Hondareyte
+ * Copyright (c) 2006-2022 Luc Hondareyte
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,16 +27,16 @@ void LCD_init (void)
 {
 	/* Initialisaion des ports */
 	
-	#if H44780_DATA_WIDTH == 8
+#ifndef H44780_4BITS_MODE
         _H44780_DATA_REG_ =  0xff ;
 
-	#else
- 	  #if H44780_PORT_IS_LSB == 1
+#else
+#ifdef H44780_DATA_IS_LSB
           _H44780_DATA_REG_ |= 0x0f ;
-	  #else
+#else
           _H44780_DATA_REG_ |= 0xf0 ;
-	  #endif
-	#endif
+#endif
+#endif
 
  	_H44780_RS_REG_ |= (1<< H44780_RS_PIN);
         _H44780_ENABLE_REG_ |= (1<< H44780_ENABLE_PIN);
@@ -54,7 +54,7 @@ void LCD_init (void)
 	LCD_validate();
 	LCD_validate();
 
-#if ( H44780_DATA_WIDTH == 8 )
+#ifdef H44780_8BITS_MODE
         LCD_ioctl( 0x30 + H44780_LINES_ARG );
 	LCD_validate();
 #else

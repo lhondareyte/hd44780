@@ -37,7 +37,7 @@
  */
 
 #ifndef H44780_DISPLAY_TYPE
-#warning LCD Type is not set
+#warning LCD Type is not set (using default 2x16)
 #define H44780_DISPLAY_TYPE     5			/* 2x16 DISPLAY */
 #endif
 
@@ -61,8 +61,12 @@
 #define H44780_RS_PIN           4			/* RS to PIND3 */
 #endif	
 
-#ifndef H44780_DATA_WIDTH
-#define H44780_DATA_WIDTH       4			/* 4bits mode */
+#ifndef H44780_8BITS_MODE
+#define H44780_4BITS_MODE        			/* default 4bits */
+#endif
+
+#ifndef H44780_DATA_IS_MSB
+#define H44780_DATA_IS_LSB                              /* default MSB */
 #endif
 
 #define _H44780_PORTA_		0x01
@@ -246,7 +250,9 @@
 #define H44780_LINES_ARG 8
 #endif
 
+#ifndef H44780_BUSY_FLAG 
 #define H44780_BUSY_FLAG 7
+#endif
 
 /*
  * H44780 command codes
@@ -306,11 +312,10 @@ void LCD_refresh(void);
 #define LCD_DisplayOff()        LCD_ioctl(H44780_DISPLAY_OFF)
 #define LCD_wait()        	_delay_ms(1)
 
-#if ( H44780_DATA_WIDTH == 4 )
-#if H44780_PORT_IS_LSB == 1
+#ifdef H44780_4BITS_MODE
+#ifdef H44780_DATA_IS_LSB
 #define WriteNibble(p,n)	p=(p & 0xf0) | ( n & 0xf)
-#endif
-#if H44780_PORT_IS_LSB == 0
+#else
 #define WriteNibble(p,n)	p=(p & 0x0f) | ((n & 0xf) << 4)
 #endif
 #endif
