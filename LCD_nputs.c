@@ -25,9 +25,10 @@
 #include "hd44780.h"
 #endif
 
-void LCD_nputs (const char *s, uint8_t n)
+void LCD_nputs (const char *s, uint8_t n, uint8_t idx)
 {
 	register char c;
+	s+=idx;
 	while (n) {
 		n--;
 		c = *s++;
