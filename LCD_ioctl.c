@@ -27,8 +27,8 @@
 
 void LCD_ioctl (uint8_t c)
 {
-#ifdef H44780_4BITS_MODE
 	char t;
+#ifdef H44780_4BITS_MODE
 	t = c >> 4;
 	_H44780_ENABLE_PORT_ &= ~(1<< H44780_ENABLE_PIN);
 	WriteNibble(_H44780_DATA_PORT_,t);
