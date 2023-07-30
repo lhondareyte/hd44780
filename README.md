@@ -9,7 +9,7 @@ Tested Ok with
  * atmega32u2
  * atmega32u4
 
-See differents files to set hd44780 pinout. 
+See `hd44780.h` to set HD44780 pinout. 
 
 ### Hello, world!
 
