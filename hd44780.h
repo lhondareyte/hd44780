@@ -248,14 +248,9 @@
 #define H44780_DISPLAY_OFF      0x08	/* Display On/Off */
 #define H44780_DISPLAY_ON       0x08	
 #define H44780_DISPLAY_SHIFT    0x18	/* Display or cursor shift */
-#define H44780_CURSOR_OFF       0x0C    /* Display on, cursor off */
-#define H44780_CURSOR_ON        0x0E    /* Display on, steady cursor */
-#define H44780_BLINK_ON         0x0F    /* Display on, blinking cursor */
-
-#define LINE_1		        0x80	/* first line address  */
-#define LINE_2			0xC0	/* etc.               */
-#define LINE_3			0x94
-#define LINE_4      		0xB6
+#define H44780_CURSOR_OFF       0x0C    /* Cursor off */
+#define H44780_CURSOR_ON        0x0E    /* Steady cursor */
+#define H44780_BLINK_ON         0x0F    /* Blinking cursor */
 
 struct {
         uint8_t line;
@@ -265,7 +260,7 @@ struct {
 	// uint refresh : 1 ;
 	// uint [attribut] : H44780_ROWS * H44780_LINES;
 #endif // __BLINK_SUPPORT__
-} LCD_display;
+};
 
 /* Prototypes */
 void LCD_init (void);			/* Call it first  */
