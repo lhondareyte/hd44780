@@ -18,8 +18,8 @@ void LCD_ioctl (uint8_t c)
 	WriteNibble(_H44780_DATA_PORT_,t);
 	_H44780_RS_PORT_ &= ~(1<< H44780_RS_PIN);
         LCD_validate();
-	_H44780_ENABLE_PORT_ &= ~(1<< H44780_ENABLE_PIN);
 	c &= 0x0f;
+	_H44780_ENABLE_PORT_ &= ~(1<< H44780_ENABLE_PIN);
 	WriteNibble(_H44780_DATA_PORT_,c);
 	_H44780_RS_PORT_ &= ~(1<< H44780_RS_PIN);
         LCD_validate();
