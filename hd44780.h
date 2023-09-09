@@ -1,16 +1,18 @@
 /*
  * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2006-2022 Luc Hondareyte
+ * Copyright (c) 2006-2023 Luc Hondareyte
  *
  */
 
 #ifndef __HD44780_H__
 #define __HD44780_H__
 
-#include <stdlib.h>
+#ifdef __AVR__
+
 #include <avr/io.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <util/delay.h>
 
 /*
@@ -26,15 +28,15 @@
 #endif
 
 #ifndef H44780_DATA_PORT
-#define H44780_DATA_PORT        _H44780_PORTB_ 	/* Connexion sur PORTB */
+#define H44780_DATA_PORT        _H44780_PORTB_ 
 #endif
 
 #ifndef H44780_ENABLE_PORT
-#define H44780_ENABLE_PORT       _H44780_PORTB_	/* ENABLE on  PORTD */
+#define H44780_ENABLE_PORT       _H44780_PORTB_	
 #endif
 
 #ifndef H44780_ENABLE_PIN
-#define H44780_ENABLE_PIN        5			/* ENABLE to PIND2 */
+#define H44780_ENABLE_PIN        5	
 #endif
 
 #ifndef H44780_RS_PORT
@@ -42,7 +44,7 @@
 #endif
 
 #ifndef H44780_RS_PIN
-#define H44780_RS_PIN           4			/* RS to PIND3 */
+#define H44780_RS_PIN           4
 #endif	
 
 #ifndef H44780_8BITS_MODE
@@ -162,6 +164,9 @@
 #endif
 #endif
 
+
+#endif // __AVR__
+
 /*
  *  Models types
  */
@@ -252,17 +257,15 @@
 #define LINE_3			0x94
 #define LINE_4      		0xB6
 
-#if defined (__BLINK_SUPPORT__)
-
-// unfinished
-
-/* Bit field for blink attribut */
 struct {
-	uint refresh : 1 ;
-	uint [attribut] : H44780_ROWS * H44780_LINES;
-} display;
-
+        uint8_t line;
+        uint8_t row;
+#if defined (__BLINK_SUPPORT__)
+        // Bit field for blink attribut
+	// uint refresh : 1 ;
+	// uint [attribut] : H44780_ROWS * H44780_LINES;
 #endif // __BLINK_SUPPORT__
+} LCD_display;
 
 /* Prototypes */
 void LCD_init (void);			/* Call it first  */
