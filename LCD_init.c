@@ -42,7 +42,7 @@ void LCD_init (void)
         LCD_ioctl( 0x30 + H44780_LINES_ARG );
 	LCD_validate();
 #else
-	/* Envoi du mode 4bits */
+	/* Set 4bits mode */
 	WriteNibble(_H44780_DATA_PORT_, 0x02);
         _H44780_ENABLE_PORT_ &= ~(1<< H44780_ENABLE_PIN);
         _H44780_RS_PORT_ &= ~(1<< H44780_RS_PIN);
@@ -50,8 +50,8 @@ void LCD_init (void)
 	LCD_validate();
 	LCD_validate();
 
-	/* Envoi du nb de lignes */
-	WriteNibble(_H44780_DATA_PORT_, H44780_LINES_ARG);
+	/* Set lines number  */
+	WriteNibble(_H44780_DATA_PORT_, 8);
         _H44780_ENABLE_PORT_ &= ~(1<< H44780_ENABLE_PIN);
         _H44780_RS_PORT_ &= ~(1<< H44780_RS_PIN);
 

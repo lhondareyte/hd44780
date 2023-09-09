@@ -228,12 +228,6 @@
 #define H44780_DDRAM_L2  0x40
 #endif
 
-#if   (H44780_LINES == 1) 
-#define H44780_LINES_ARG 0
-#elif (H44780_LINES == 2)
-#define H44780_LINES_ARG 8
-#endif
-
 #ifndef H44780_BUSY_FLAG 
 #define H44780_BUSY_FLAG 7
 #endif
