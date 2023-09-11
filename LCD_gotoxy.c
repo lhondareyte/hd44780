@@ -21,7 +21,7 @@ void LCD_gotoxy (uint8_t x, uint8_t y)
 		cur += 49;
 #endif
 #if (H44780_LINES >= 2) 
-	else if (x == 2) {	
+	if (x == 2) {	
 		cur += H44780_DDRAM_L2;
 	}
 #endif
