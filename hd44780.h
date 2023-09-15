@@ -252,16 +252,6 @@
 #define H44780_CURSOR_ON        0x0E    /* Steady cursor */
 #define H44780_BLINK_ON         0x0F    /* Blinking cursor */
 
-struct {
-        uint8_t line;
-        uint8_t row;
-#if defined (__BLINK_SUPPORT__)
-        // Bit field for blink attribut
-	// uint refresh : 1 ;
-	// uint [attribut] : H44780_ROWS * H44780_LINES;
-#endif // __BLINK_SUPPORT__
-};
-
 /* Prototypes */
 void LCD_init (void);			/* Call it first  */
 void LCD_ioctl (uint8_t);		/* Send command to LCD */
