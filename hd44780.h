@@ -198,11 +198,6 @@
 #define H44780_LINES     1
 #define H44780_DDRAM_L1  0x80
 
-#elif  ( H44780_DISPLAY_TYPE == 4 )   /* 16x1 characters */
-#define H44780_ROWS      16
-#define H44780_LINES     1
-#define H44780_DDRAM_L1  0x80
-
 #elif  ( H44780_DISPLAY_TYPE == 5 )   /* 16x2 characters */
 #define H44780_ROWS      16
 #define H44780_LINES     2
