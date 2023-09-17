@@ -187,6 +187,17 @@
 #define H44780_DDRAM_L1  0x80
 #define H44780_DDRAM_L2  0x40
 
+#elif  ( H44780_DISPLAY_TYPE == 32 )  /* 8x2 charaters on single line */
+#define H44780_ROWS      16           // i.e Vishay LCD-1601
+#define H44780_LINES     1
+#define H44780_DDRAM_L1  0x80
+#define H44780_DDRAM_L2  0xC0
+
+#elif  ( H44780_DISPLAY_TYPE == 4 )   /* 16x1 characters */
+#define H44780_ROWS      16
+#define H44780_LINES     1
+#define H44780_DDRAM_L1  0x80
+
 #elif  ( H44780_DISPLAY_TYPE == 4 )   /* 16x1 characters */
 #define H44780_ROWS      16
 #define H44780_LINES     1
