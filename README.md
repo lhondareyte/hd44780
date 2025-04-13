@@ -24,7 +24,6 @@ You should copy all files in subdirectory (eg. hd44780) of your project.
  *     RW to GND
  */
 
-#define H44780_DISPLAY_TYPE    10               /* 2x24 characters type  */
 #define H44780_4BITS_MODE                       /* 4 bits mode           */
 #define H44780_DATA_IS_MSB                      /* DATA = PIN[4-7] PORTD */
 #define H44780_DISPLAY_PORT     _H44780_PORTD_
@@ -61,12 +60,13 @@ HZ	  = 16000000
 CC        = avr-gcc
 OBJCOPY   = avr-objcopy
 CFLAGS   += -Os -D F_CPU=$(HZ)
+CFLAGS   += -D H44780_DISPLAY_TYPE=5
 CFLAGS   += -g -mmcu=$(MCU) -Wall -Wstrict-prototypes
 SOURCES  += example.c $(HD44780_SOURCES)
 OBJECTS   = example.o $(HD44780_OBJECTS)
 
 default: $(FIRMWARE).out
-        $(OBJCOPY) -R .eeprom -O ihex $(FIRMWARE).out  \
+	$(OBJCOPY) -R .eeprom -O ihex $(FIRMWARE).out  \
                 $(FIRMWARE).hex
 
 $(FIRMWARE).out: $(OBJECTS)
