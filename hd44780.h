@@ -269,7 +269,7 @@ void LCD_clrline(uint8_t);		/* Clear current line */
 void LCD_validate(void);		/* Command validate */
 void LCD_wait(void);			/* Internal delays */
 void LCD_nputs(const char *, uint8_t, uint8_t);
-void LCD_puts_pgm(uint8_t,PGM_P const *);
+void LCD_puts_pgm(uint8_t, char *, PGM_P const *);
 
 #if defined (__BLINK_SUPPORT__)
 void LCD_refresh(void);
