@@ -1,0 +1,10 @@
+#ifndef __HD44780_H__
+ #include "hd44780.h"
+#endif
+
+void LCD_puts_pgm (uint8_t i, PGM_P const *t) {
+        char buf[18];
+        strcpy_P(buf, (PGM_P)pgm_read_word(&(t[i])));
+        LCD_puts(buf);
+}
+
