@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2006-2023 Luc Hondareyte
+ * Copyright (c)2006-2023 Luc Hondareyte
  *
  */
 
