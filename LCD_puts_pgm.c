@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: MIT
+ *
+ * Copyright (c)2025 Luc Hondareyte
+ *
+ */
 #ifndef __HD44780_H__
  #include "hd44780.h"
 #endif

@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: MIT
  *
- * Copyright (c) 2006-2023 Luc Hondareyte
+ * Copyright (c)2006-2025 Luc Hondareyte
  *
  */
 
@@ -25,7 +25,7 @@
 
 #ifndef H44780_DISPLAY_TYPE
 #warning LCD Type is not set (using default 2x16)
-#define H44780_DISPLAY_TYPE     5			/* 2x16 DISPLAY */
+#define H44780_DISPLAY_TYPE     5	/* 2x16 DISPLAY */
 #endif
 
 #ifndef H44780_DATA_PORT
@@ -49,11 +49,11 @@
 #endif	
 
 #ifndef H44780_8BITS_MODE
-#define H44780_4BITS_MODE        			/* default 4bits */
+#define H44780_4BITS_MODE       /* default 4bits */
 #endif
 
 #ifndef H44780_DATA_IS_MSB
-#define H44780_DATA_IS_LSB                              /* default MSB */
+#define H44780_DATA_IS_LSB      /* default MSB */
 #endif
 
 #define _H44780_PORTA_		0x01
@@ -294,4 +294,4 @@ void LCD_refresh(void);
 #endif
 #endif
 
-#endif   //     __HD44780_H__
+#endif   /* __HD44780_H__ */
