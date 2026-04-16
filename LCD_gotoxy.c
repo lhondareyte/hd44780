@@ -6,12 +6,12 @@
  */
 
 #ifndef __HD44780_H__
- #include "hd44780.h"
+#include "hd44780.h"
 #endif
 
 void LCD_gotoxy (uint8_t x, uint8_t y) 
 {
-        uint8_t cur;
+	uint8_t cur;
 	y--;
 	if (x > H44780_LINES || y > H44780_ROWS)
 		return;
@@ -22,7 +22,7 @@ void LCD_gotoxy (uint8_t x, uint8_t y)
 	else
 		cur = H44780_DDRAM_L1 + y;
 #else
-        cur= H44780_DDRAM_L1;
+	cur= H44780_DDRAM_L1;
 	cur += y;
 #if (H44780_LINES >= 2) 
 	if (x == 2) {	
@@ -43,3 +43,4 @@ void LCD_gotoxy (uint8_t x, uint8_t y)
 	LCD_ioctl(cur);
 	LCD_wait();
 }
+

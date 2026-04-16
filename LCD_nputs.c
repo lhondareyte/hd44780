@@ -22,3 +22,4 @@ void LCD_nputs (const char *s, uint8_t n, uint8_t idx)
 			LCD_putc (c);
 	}
 }
+
