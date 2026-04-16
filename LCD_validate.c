@@ -7,7 +7,7 @@
 
 
 #ifndef __HD44780_H__
- #include "hd44780.h"
+#include "hd44780.h"
 #endif
 
 void LCD_validate (void)
@@ -23,3 +23,4 @@ void LCD_validate (void)
 	LCD_wait();
 #endif
 }
+

@@ -6,7 +6,7 @@
  */
 
 #ifndef __HD44780_H__
- #include "hd44780.h"
+#include "hd44780.h"
 #endif
 
 void LCD_putc (char c)
@@ -17,16 +17,17 @@ void LCD_putc (char c)
 	_H44780_ENABLE_PORT_ &= ~(1<< H44780_ENABLE_PIN);
 	WriteNibble(_H44780_DATA_PORT_, t);
 	_H44780_RS_PORT_ |= (1<< H44780_RS_PIN);
-        LCD_validate();
+	LCD_validate();
 	c &= 0x0f;
 	_H44780_ENABLE_PORT_ &= ~(1<< H44780_ENABLE_PIN);
 	WriteNibble(_H44780_DATA_PORT_, c);
 	_H44780_RS_PORT_ |= (1<< H44780_RS_PIN);
-        LCD_validate();
+	LCD_validate();
 #else
 	_H44780_RS_PORT_ |= (1<< H44780_RS_PIN);
-        _H44780_DATA_PORT_ = t;
-        LCD_validate();
+	_H44780_DATA_PORT_ = t;
+	LCD_validate();
 #endif
 	LCD_wait();
 }
+

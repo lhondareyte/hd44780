@@ -18,3 +18,4 @@ void LCD_clrline (uint8_t n)
 		n--;
 	}
 }
+
