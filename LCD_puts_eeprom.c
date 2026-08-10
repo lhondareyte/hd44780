@@ -11,6 +11,9 @@
 
 void LCD_puts_eeprom(const uint8_t *p)
 {
+#if defined H44780_QUIRK
+	LCD_ioctl(H44780_SET_DDRAM_ADDR);
+#endif
 	uint8_t c;
 	do {
 		c = eeprom_read_byte(p);

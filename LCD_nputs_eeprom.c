@@ -11,6 +11,9 @@
 
 void LCD_nputs_eeprom(const uint8_t *p, size_t len)
 {
+#if defined H44780_QUIRK
+	LCD_ioctl(H44780_SET_DDRAM_ADDR);
+#endif
 	uint8_t c;
 	size_t i = 0;
 

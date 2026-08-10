@@ -9,6 +9,7 @@
 #include "hd44780.h"
 #endif
 
+#if ! defined  H44780_QUIRK
 void LCD_clrline (uint8_t n)
 {
 	LCD_gotoxy(n,1);
@@ -18,4 +19,5 @@ void LCD_clrline (uint8_t n)
 		n--;
 	}
 }
+#endif
 

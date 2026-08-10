@@ -10,9 +10,12 @@
 
 void LCD_nputs_pgm(char *buf, size_t len, PGM_P const *t, uint8_t index)
 {
-    strncpy_P(buf, (PGM_P)pgm_read_word(&(t[index])), len);
-    if (len > 0) {
-        buf[len - 1] = '\0';
-    }
-    LCD_puts(buf);
+#if defined H44780_QUIRK
+	LCD_ioctl(H44780_SET_DDRAM_ADDR);
+#endif
+	strncpy_P(buf, (PGM_P)pgm_read_word(&(t[index])), len);
+	if (len > 0) {
+		buf[len - 1] = '\0';
+	}
+	LCD_puts(buf);
 }
