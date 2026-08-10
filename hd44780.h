@@ -65,6 +65,12 @@
 #define H44780_ROWS      24
 #define H44780_LINES     2
 #define H44780_LINE2
+
+#elif  ( H44780_DISPLAY_TYPE == 41 )   /* 2x8 characters but 1 line*/
+#define H44780_ROWS      16            
+#define H44780_LINES     1
+#define H44780_QUIRK     1
+
 #endif
 
 #ifndef H44780_BUSY_FLAG 
