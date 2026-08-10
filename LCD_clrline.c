@@ -10,6 +10,8 @@
 #endif
 
 #if ! defined  H44780_QUIRK
+extern Cursor cursor;
+
 void LCD_clrline (uint8_t n)
 {
 	LCD_gotoxy(n,1);

@@ -7,6 +7,8 @@
 
 #include "hd44780.h"
 
+extern Cursor cursor;
+
 void LCD_init (void)
 {
 	/* Initialisaion des ports */
@@ -62,5 +64,7 @@ void LCD_init (void)
 	LCD_ioctl (H44780_CLEAR_DISPLAY);
 	LCD_ioctl (H44780_CURSOR_RIGHT);
 	LCD_ioctl (H44780_CURSOR_HOME);
+	cursor.line = 1;
+	cursor.row = 1;
 }
 

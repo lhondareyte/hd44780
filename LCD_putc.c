@@ -9,6 +9,8 @@
 #include "hd44780.h"
 #endif
 
+volatile Cursor cursor;
+
 void LCD_putc (char c)
 {
 	char t;
@@ -29,5 +31,18 @@ void LCD_putc (char c)
 	LCD_validate();
 #endif
 	LCD_wait();
+	cursor.row++;
+#if defined (H44780_QUIRK)
+	if (cursor.row == H44780_ROWS / 2 + 1)
+		LCD_ioctl(H44780_ADDR_LINE2);
+	if (cursor.row == H44780_ROWS) {
+		LCD_ioctl(H44780_ADDR_LINE1);	
+		cursor.row = 1;
+	}
+#else
+	if (cursor.row == H44780_ROWS)
+		LCD_next_line();
+#endif
+
 }
 

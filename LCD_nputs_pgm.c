@@ -8,6 +8,8 @@
 #include "hd44780.h"
 #endif
 
+extern Cursor cursor;
+
 void LCD_nputs_pgm(char *buf, size_t len, PGM_P const *t, uint8_t index)
 {
 #if defined H44780_QUIRK

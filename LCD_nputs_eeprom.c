@@ -9,6 +9,8 @@
 #endif
 #include <avr/eeprom.h>
 
+extern Cursor cursor;
+
 void LCD_nputs_eeprom(const uint8_t *p, size_t len)
 {
 #if defined H44780_QUIRK

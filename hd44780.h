@@ -12,23 +12,25 @@
 #include "avr.h"
 #endif
 
+typedef struct {
+        int line; 
+        int row; 
+} Cursor;
+
 /*
  *  Models types
  */
 #if    ( H44780_DISPLAY_TYPE == 1 )   /* 5x2 characters */
 #define H44780_ROWS      5
 #define H44780_LINES     2
-#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 2 )   /* 8x1 characters */
 #define H44780_ROWS      8
 #define H44780_LINES     1
-#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 3 )   /* 8x2 characters */
 #define H44780_ROWS      8
 #define H44780_LINES     2
-#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 4 )   /* 16x1 characters */
 #define H44780_ROWS      16
@@ -37,34 +39,26 @@
 #elif  ( H44780_DISPLAY_TYPE == 5 )   /* 16x2 characters */
 #define H44780_ROWS      16
 #define H44780_LINES     2
-#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 6 )   /* 16x4 characters */
 #define H44780_ROWS      16
 #define H44780_LINES     4
-#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 7 )   /* 20x2 characters */
 #define H44780_ROWS      20
 #define H44780_LINES     2
-#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 8 )   /* 20x4 characters */
 #define H44780_ROWS      20
 #define H44780_LINES     4
-#define H44780_LINE2
-#define H44780_LINE3
-#define H44780_LINE4
 
 #elif  ( H44780_DISPLAY_TYPE == 9 )   /* 40x2 characters */
 #define H44780_ROWS      40
 #define H44780_LINES     2
-#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 10 )   /* 24x2 characters */
 #define H44780_ROWS      24
 #define H44780_LINES     2
-#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 41 )   /* 2x8 characters but 1 line*/
 #define H44780_ROWS      16            
@@ -95,24 +89,32 @@
 
 #define H44780_NEXT_LINE        0x40
 
+#define H44780_ADDR_LINE1  H44780_SET_DDRAM_ADDR
+#define H44780_ADDR_LINE2  (H44780_SET_DDRAM_ADDR | H44780_NEXT_LINE)
+#define H44780_ADDR_LINE3  (H44780_SET_DDRAM_ADDR | H44780_ROWS)
+#define H44780_ADDR_LINE4  (H44780_SET_DDRAM_ADDR | H44780_NEXT_LINE | H44780_ROWS)
+
 /* Prototypes */
-void LCD_init (void);			/* Call it first  */
 void LCD_ioctl (uint8_t);		/* Send command to LCD */
-void LCD_putc (char);			/* Send char to LCD */
-void LCD_puts (const char *);		/* Send string to LCD */
-#if ! defined(H44780_QUIRK)
-void LCD_gotoxy(uint8_t,uint8_t);	/* Set cursor position */
-void LCD_clrline(uint8_t);		/* Clear current line */
-#else
-#define LCD_clrline()          LCD_ioctl(H44780_CLEAR_DISPLAY)
-#endif
 void LCD_validate(void);		/* Command validate */
 void LCD_wait(void);			/* Internal delays */
+
+void LCD_init (void);			/* Call it first  */
+void LCD_putc (char);			/* Send char to LCD */
+void LCD_gotoxy(uint8_t,uint8_t);	/* Set cursor position */
+void LCD_puts (const char *);		/* Send string to LCD */
 void LCD_nputs(const char *, uint8_t, uint8_t);
 void LCD_puts_pgm(char *, PGM_P const *, uint8_t);
 void LCD_nputs_pgm(char *, size_t, PGM_P const *, uint8_t);
 void LCD_puts_eeprom(const uint8_t *);
 void LCD_nputs_eeprom(const uint8_t *p, size_t len);
+void LCD_next_line(void);
+
+#if ! defined(H44780_QUIRK)
+void LCD_clrline(uint8_t);		/* Clear current line */
+#else
+#define LCD_clrline()          LCD_ioctl(H44780_CLEAR_DISPLAY)
+#endif
 
 #if defined (__BLINK_SUPPORT__)
 void LCD_refresh(void);

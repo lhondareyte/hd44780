@@ -9,29 +9,43 @@
 #include "hd44780.h"
 #endif
 
+extern Cursor cursor;
+
 void LCD_gotoxy (uint8_t x, uint8_t y) 
 {
 	uint8_t cur = 0;
+
+	cursor.row = y;
+	cursor.line = x;
 	y--;
+
+#if defined (H44780_QUIRK)
+	
+	if ( y < H44780_ROWS / 2 )
+		cur = H44780_ADDR_LINE1;
+	else
+		cur = H44780_ADDR_LINE2;
+#else
 	if (x > H44780_LINES || y > H44780_ROWS)
 		return;
 	if (x == 1 ){
-		cur = H44780_SET_DDRAM_ADDR + y;
+		cur = H44780_ADDR_LINE1 + y;
 	}
-#if defined (H44780_LINE2) || defined (H44780_QUIRK)
+#if (H44780_LINES > 1)
 	else if (x == 2) {
-		cur = H44780_SET_DDRAM_ADDR | H44780_NEXT_LINE;
+		cur = H44780_ADDR_LINE2;
 	}
 #endif
-#if defined H44780_LINE3
+#if (H44780_LINES > 2)
 	else if (x == 3) {
-		cur = H44780_SET_DDRAM_ADDR | H44780_ROWS ;
+		cur = H44780_ADDR_LINE3;
 	}
 #endif
-#if defined H44780_LINE4
+#if (H44780_LINES > 3) 
 	else if (x == 4) {
-		cur = H44780_SET_DDRAM_ADDR | H44780_NEXT_LINE | H44780_ROWS ;
+		cur = H44780_ADDR_LINE4;
 	}
+#endif
 #endif
 	cur += y;
 	LCD_ioctl(cur);
