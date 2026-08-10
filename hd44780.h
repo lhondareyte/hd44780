@@ -18,70 +18,54 @@
 #if    ( H44780_DISPLAY_TYPE == 1 )   /* 5x2 characters */
 #define H44780_ROWS      5
 #define H44780_LINES     2
-#define H44780_DDRAM_L1  0x80
-#define H44780_DDRAM_L2  0x40
+#define H44780_LINE1
+#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 2 )   /* 8x1 characters */
 #define H44780_ROWS      8
 #define H44780_LINES     1
-#define H44780_DDRAM_L1  0x80
+#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 3 )   /* 8x2 characters */
 #define H44780_ROWS      8
 #define H44780_LINES     2
-#define H44780_DDRAM_L1  0x80
-#define H44780_DDRAM_L2  0x40
-
-#elif  ( H44780_DISPLAY_TYPE == 32 )  /* 8x2 charaters on single line */
-#define H44780_ROWS      16           // i.e Vishay LCD-1601
-#define H44780_LINES     1
-#define H44780_DDRAM_L1  0x80
-#define H44780_DDRAM_L2  0xC0
+#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 4 )   /* 16x1 characters */
 #define H44780_ROWS      16
 #define H44780_LINES     1
-#define H44780_DDRAM_L1  0x80
 
 #elif  ( H44780_DISPLAY_TYPE == 5 )   /* 16x2 characters */
 #define H44780_ROWS      16
 #define H44780_LINES     2
-#define H44780_DDRAM_L1  0x80
-#define H44780_DDRAM_L2  0x40
+#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 6 )   /* 16x4 characters */
 #define H44780_ROWS      16
 #define H44780_LINES     4
-#define H44780_DDRAM_L1  0x80
-#define H44780_DDRAM_L2  0x40
-#define H44780_DDRAM_L3  0x80
-#define H44780_DDRAM_L4  0x40
+#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 7 )   /* 20x2 characters */
 #define H44780_ROWS      20
 #define H44780_LINES     2
-#define H44780_DDRAM_L1  0x80
-#define H44780_DDRAM_L2  0x40
+#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 8 )   /* 20x4 characters */
 #define H44780_ROWS      20
 #define H44780_LINES     4
-#define H44780_DDRAM_L1  0x80
-#define H44780_DDRAM_L2  0x40
-#define H44780_DDRAM_L3  0x80
-#define H44780_DDRAM_L4  0x40
+#define H44780_LINE2
+#define H44780_LINE3
+#define H44780_LINE4
 
 #elif  ( H44780_DISPLAY_TYPE == 9 )   /* 40x2 characters */
 #define H44780_ROWS      40
 #define H44780_LINES     2
-#define H44780_DDRAM_L1  0x80
-#define H44780_DDRAM_L2  0x40
+#define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 10 )   /* 24x2 characters */
 #define H44780_ROWS      24
 #define H44780_LINES     2
-#define H44780_DDRAM_L1  0x80
-#define H44780_DDRAM_L2  0x40
+#define H44780_LINE2
 #endif
 
 #ifndef H44780_BUSY_FLAG 
@@ -102,6 +86,9 @@
 #define H44780_CURSOR_OFF       0x0C    /* Cursor off */
 #define H44780_CURSOR_ON        0x0E    /* Steady cursor */
 #define H44780_BLINK_ON         0x0F    /* Blinking cursor */
+#define H44780_SET_DDRAM_ADDR   0x80    
+
+#define H44780_NEXT_LINE        0x40
 
 /* Prototypes */
 void LCD_init (void);			/* Call it first  */

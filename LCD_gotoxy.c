@@ -11,34 +11,27 @@
 
 void LCD_gotoxy (uint8_t x, uint8_t y) 
 {
-	uint8_t cur;
+	uint8_t cur = 0;
 	y--;
 	if (x > H44780_LINES || y > H44780_ROWS)
 		return;
-
-#if (H44780_DISPLAY_TYPE == 32)
-	if ( y > (H44780_ROWS / 2))
-		cur = H44780_DDRAM_L2 + (y - (H44780_ROWS / 2));
-	else
-		cur = H44780_DDRAM_L1 + y;
-#else
-	cur= H44780_DDRAM_L1;
-	cur += y;
-#if (H44780_LINES >= 2) 
-	if (x == 2) {	
-		cur += H44780_DDRAM_L2;
+	if (x == 1 ){
+		cur = H44780_SET_DDRAM_ADDR | y;
+	}
+#if defined HD44780_LINE2
+	else if (x == 2) {
+		cur = H44780_SET_DDRAM_ADDR | H44780_NEXT_LINE | y;
 	}
 #endif
-#if (H44780_LINES >= 3) 
-	else if (x == 3) {	
-		cur += H44780_DDRAM_L3;
+#if defined HD44780_LINE4
+	else if (x == 3) {
+		cur = H44780_SET_DDRAM_ADDR | (y + H44780_ROWS) ;
 	}
 #endif
-#if (H44780_LINES >= 4) 
-	else if (x == 4) {	
-		cur += H44780_DDRAM_L4;
+#if defined HD44780_LINE4
+	else if (x == 4) {
+		cur = H44780_SET_DDRAM_ADDR | H44780_NEXT_LINE | (y + H44780_ROWS) ;
 	}
-#endif
 #endif
 	LCD_ioctl(cur);
 	LCD_wait();
