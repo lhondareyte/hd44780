@@ -18,7 +18,6 @@
 #if    ( H44780_DISPLAY_TYPE == 1 )   /* 5x2 characters */
 #define H44780_ROWS      5
 #define H44780_LINES     2
-#define H44780_LINE1
 #define H44780_LINE2
 
 #elif  ( H44780_DISPLAY_TYPE == 2 )   /* 8x1 characters */

@@ -18,17 +18,17 @@ void LCD_gotoxy (uint8_t x, uint8_t y)
 	if (x == 1 ){
 		cur = H44780_SET_DDRAM_ADDR | y;
 	}
-#if defined HD44780_LINE2
+#if defined H44780_LINE2
 	else if (x == 2) {
 		cur = H44780_SET_DDRAM_ADDR | H44780_NEXT_LINE | y;
 	}
 #endif
-#if defined HD44780_LINE4
+#if defined H44780_LINE3
 	else if (x == 3) {
 		cur = H44780_SET_DDRAM_ADDR | (y + H44780_ROWS) ;
 	}
 #endif
-#if defined HD44780_LINE4
+#if defined H44780_LINE4
 	else if (x == 4) {
 		cur = H44780_SET_DDRAM_ADDR | H44780_NEXT_LINE | (y + H44780_ROWS) ;
 	}
