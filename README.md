@@ -15,7 +15,7 @@ See `hd44780.h` to set HD44780 pinout.
 
 You should copy all files in subdirectory (eg. hd44780) of your project. 
 
-```
+```C
 /* 
  * 2x24 character in 4 bits mode connected as follow :
  *     DATA   = PIN[4-7] PORTD
@@ -50,7 +50,7 @@ int main(void) {
 ```
 A Makefile to build previous ```example.c```
 
-```
+```makefile
 include hd44780/hd44780.mk
 
 FIRMWARE  = example
