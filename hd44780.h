@@ -85,14 +85,25 @@ typedef struct {
 #define H44780_CURSOR_OFF       0x0C    /* Cursor off */
 #define H44780_CURSOR_ON        0x0E    /* Steady cursor */
 #define H44780_BLINK_ON         0x0F    /* Blinking cursor */
+#define H44780_SET_CGRAM_ADDR   0x40    
 #define H44780_SET_DDRAM_ADDR   0x80    
+
 
 #define H44780_NEXT_LINE        0x40
 
-#define H44780_ADDR_LINE1  H44780_SET_DDRAM_ADDR
-#define H44780_ADDR_LINE2  (H44780_SET_DDRAM_ADDR | H44780_NEXT_LINE)
-#define H44780_ADDR_LINE3  (H44780_SET_DDRAM_ADDR | H44780_ROWS)
-#define H44780_ADDR_LINE4  (H44780_SET_DDRAM_ADDR | H44780_NEXT_LINE | H44780_ROWS)
+#define H44780_ADDR_LINE1       H44780_SET_DDRAM_ADDR
+#define H44780_ADDR_LINE2       (H44780_SET_DDRAM_ADDR | H44780_NEXT_LINE)
+#define H44780_ADDR_LINE3       (H44780_SET_DDRAM_ADDR | H44780_ROWS)
+#define H44780_ADDR_LINE4       (H44780_SET_DDRAM_ADDR | H44780_NEXT_LINE | H44780_ROWS)
+
+#define H44780_CUSTOM_CHAR1     0x00
+#define H44780_CUSTOM_CHAR2     0x01
+#define H44780_CUSTOM_CHAR3     0x02
+#define H44780_CUSTOM_CHAR4     0x03
+#define H44780_CUSTOM_CHAR5     0x04
+#define H44780_CUSTOM_CHAR6     0x05
+#define H44780_CUSTOM_CHAR7     0x06
+#define H44780_CUSTOM_CHAR8     0x07
 
 /* Prototypes */
 void LCD_ioctl (uint8_t);		/* Send command to LCD */
@@ -107,8 +118,9 @@ void LCD_nputs(const char *, uint8_t, uint8_t);
 void LCD_puts_pgm(char *, PGM_P const *, uint8_t);
 void LCD_nputs_pgm(char *, size_t, PGM_P const *, uint8_t);
 void LCD_puts_eeprom(const uint8_t *);
-void LCD_nputs_eeprom(const uint8_t *p, size_t len);
+void LCD_nputs_eeprom(const uint8_t *, size_t len);
 void LCD_next_line(void);
+void LCD_setchar(const uint8_t *, uint8_t); /* Set a custom character */
 
 #if ! defined(H44780_QUIRK)
 void LCD_clrline(uint8_t);		/* Clear current line */

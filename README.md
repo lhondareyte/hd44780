@@ -78,6 +78,40 @@ $(FIRMWARE).out: $(OBJECTS)
 clean:
 	rm -f *.o *.hex *map 
 ```
+
+## Custom characters
+
+The HD44780 allows you to create up to 8 custom characters:
+
+```C
+#define print_heart()  LCD_putc(H44780_CUSTOM_CHAR1)
+
+const uint8_t custom_char[8] = {
+    0b00000000,
+    0b00001010,
+    0b00011111,
+    0b00011111,
+    0b00001110,
+    0b00000100,
+    0b00000000,
+    0b00000000
+};
+
+void Setup(void){
+	...
+	LCD_setchar(custom_char, H44780_CUSTOM_CHAR1);
+	...
+}
+
+int main(void) {
+	...
+	Setup();
+	...
+	print_heart();
+	...
+}
+```
+
 ## License
 
   * MIT license
