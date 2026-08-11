@@ -38,7 +38,6 @@ void LCD_init (void)
 
 	_delay_ms(4);
 	LCD_validate();
-	LCD_validate();
 
 #ifdef H44780_8BITS_MODE
 	LCD_ioctl( 0x30 + H44780_LINES_ARG );
