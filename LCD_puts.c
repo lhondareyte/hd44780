@@ -13,6 +13,6 @@ void LCD_puts (const char *s)
 {
 	register char c;
 	while ((c = *s++)) {
-		LCD_putc (c);
+		LCD_putc(c);
 	}
 }

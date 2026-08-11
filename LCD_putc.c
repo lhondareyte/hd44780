@@ -14,6 +14,10 @@ volatile Cursor cursor;
 void LCD_putc (char c)
 {
 	char t;
+	if (c == '\n') {
+		LCD_next_line();
+		return;
+	}
 #ifdef H44780_4BITS_MODE
 	t = c >> 4;
 	_H44780_ENABLE_PORT_ &= ~(1<< H44780_ENABLE_PIN);
