@@ -9,7 +9,7 @@ Tested Ok with
  * atmega32u2
  * atmega32u4
 
-See `hd44780.h` to set HD44780 pinout. 
+See `hd44780.h` to set HD44780 pinout
 
 ### Hello, world!
 
@@ -115,3 +115,8 @@ int main(void) {
 ## License
 
   * MIT license
+
+## Bugs
+
+The 8-bit mode is not being tested as it should be.
+
