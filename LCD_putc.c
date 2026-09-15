@@ -13,7 +13,9 @@ volatile Cursor cursor;
 
 void LCD_putc (char c)
 {
+#ifdef H44780_4BITS_MODE
 	char t;
+#endif
 	if (c == '\n') {
 		LCD_next_line();
 		return;
@@ -31,7 +33,7 @@ void LCD_putc (char c)
 	LCD_validate();
 #else
 	_H44780_RS_PORT_ |= (1<< H44780_RS_PIN);
-	_H44780_DATA_PORT_ = t;
+	_H44780_DATA_PORT_ = c;
 	LCD_validate();
 #endif
 	LCD_wait();
