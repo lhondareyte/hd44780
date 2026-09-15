@@ -21,7 +21,7 @@ inline void LCD_next_line(void) {
 #endif
 #if (H44780_LINES > 2) 
 	else if (cursor.line == 2) {
-		LCD_ioctl(H44780_ADDR_LINE4);
+		LCD_ioctl(H44780_ADDR_LINE3);
 		cursor.line++;
 
 	}
