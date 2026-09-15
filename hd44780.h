@@ -13,8 +13,8 @@
 #endif
 
 typedef struct {
-        int line; 
-        int row; 
+        uint8_t line; 
+        uint8_t row; 
 } Cursor;
 
 /*
