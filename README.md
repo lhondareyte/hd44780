@@ -60,7 +60,7 @@ HZ	  = 16000000
 CC        = avr-gcc
 OBJCOPY   = avr-objcopy
 CFLAGS   += -Os -D F_CPU=$(HZ)
-CFLAGS   += -D H44780_DISPLAY_TYPE=5
+CFLAGS   += -D H44780_DISPLAY_TYPE=HD44780_16x2
 CFLAGS   += -g -mmcu=$(MCU) -Wall -Wstrict-prototypes
 SOURCES  += example.c $(HD44780_SOURCES)
 OBJECTS   = example.o $(HD44780_OBJECTS)

@@ -123,7 +123,6 @@ typedef struct {
 /* Prototypes */
 void LCD_ioctl (uint8_t);		/* Send command to LCD */
 void LCD_validate(void);		/* Command validate */
-void LCD_wait(void);			/* Internal delays */
 
 void LCD_init (void);			/* Call it first  */
 void LCD_putc (char);			/* Send char to LCD */
@@ -153,7 +152,7 @@ void LCD_refresh(void);
 #define LCD_fixCursor()         LCD_ioctl(H44780_CURSOR_ON)
 #define LCD_cursorOn()          LCD_ioctl(H44780_CURSOR_ON)
 #define LCD_cursorOff()         LCD_ioctl(H44780_CURSOR_OFF)
-#define LCD_gotoLine(x)         LCD_ioctl(x)
+#define LCD_gotoLine(x)         LCD_ioctl(x)  /* ie. LCD_gotoLine(H44780_ADDR_LINE3)*/
 #define LCD_DisplayOn()         LCD_ioctl(H44780_DISPLAY_ON)
 #define LCD_DisplayOff()        LCD_ioctl(H44780_DISPLAY_OFF)
 #define LCD_wait()        	_delay_ms(1)
