@@ -20,51 +20,66 @@ typedef struct {
 /*
  *  Models types
  */
-#if    ( H44780_DISPLAY_TYPE == 1 )   /* 5x2 characters */
+
+#define HD44780_5x2     1
+#define HD44780_8x1     2
+#define HD44780_8x2     3
+#define HD44780_16x1    4
+#define HD44780_16x2    5
+#define HD44780_16x4    6
+#define HD44780_20x2    7
+#define HD44780_20x4    8
+#define HD44780_40x2    9
+#define HD44780_24x2   10
+#define HD44780_2x8_1L 41   /* 2x8 on one line */
+
+#if    ( H44780_DISPLAY_TYPE == HD44780_5x2 )
 #define H44780_ROWS      5
 #define H44780_LINES     2
 
-#elif  ( H44780_DISPLAY_TYPE == 2 )   /* 8x1 characters */
+#elif  ( H44780_DISPLAY_TYPE == HD44780_8x1 )
 #define H44780_ROWS      8
 #define H44780_LINES     1
 
-#elif  ( H44780_DISPLAY_TYPE == 3 )   /* 8x2 characters */
+#elif  ( H44780_DISPLAY_TYPE == HD44780_8x2 )
 #define H44780_ROWS      8
 #define H44780_LINES     2
 
-#elif  ( H44780_DISPLAY_TYPE == 4 )   /* 16x1 characters */
+#elif  ( H44780_DISPLAY_TYPE == HD44780_16x1 )
 #define H44780_ROWS      16
 #define H44780_LINES     1
 
-#elif  ( H44780_DISPLAY_TYPE == 5 )   /* 16x2 characters */
+#elif  ( H44780_DISPLAY_TYPE == HD44780_16x2 )
 #define H44780_ROWS      16
 #define H44780_LINES     2
 
-#elif  ( H44780_DISPLAY_TYPE == 6 )   /* 16x4 characters */
+#elif  ( H44780_DISPLAY_TYPE == HD44780_16x4 )
 #define H44780_ROWS      16
 #define H44780_LINES     4
 
-#elif  ( H44780_DISPLAY_TYPE == 7 )   /* 20x2 characters */
+#elif  ( H44780_DISPLAY_TYPE == HD44780_20x2 )
 #define H44780_ROWS      20
 #define H44780_LINES     2
 
-#elif  ( H44780_DISPLAY_TYPE == 8 )   /* 20x4 characters */
+#elif  ( H44780_DISPLAY_TYPE == HD44780_20x4 )
 #define H44780_ROWS      20
 #define H44780_LINES     4
 
-#elif  ( H44780_DISPLAY_TYPE == 9 )   /* 40x2 characters */
+#elif  ( H44780_DISPLAY_TYPE == HD44780_40x2 )
 #define H44780_ROWS      40
 #define H44780_LINES     2
 
-#elif  ( H44780_DISPLAY_TYPE == 10 )   /* 24x2 characters */
+#elif  ( H44780_DISPLAY_TYPE == HD44780_24x2 )
 #define H44780_ROWS      24
 #define H44780_LINES     2
 
-#elif  ( H44780_DISPLAY_TYPE == 41 )   /* 2x8 characters but 1 line*/
+#elif  ( H44780_DISPLAY_TYPE == HD44780_2x8_1L )
 #define H44780_ROWS      16            
 #define H44780_LINES     1
 #define H44780_QUIRK     1
 
+#else 
+#error
 #endif
 
 #ifndef H44780_BUSY_FLAG 
