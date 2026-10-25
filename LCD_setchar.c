@@ -14,7 +14,7 @@ extern Cursor cursor;
 
 void LCD_setchar (const uint8_t *s, uint8_t n)
 {
-	register char c;
+	char c;
 	uint8_t cmd  = H44780_SET_CGRAM_ADDR | n;
 	LCD_ioctl(cmd);
 

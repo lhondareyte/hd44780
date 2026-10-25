@@ -11,7 +11,7 @@
 
 void LCD_puts (const char *s)
 {
-	register char c;
+	char c;
 	while ((c = *s++)) {
 		LCD_putc(c);
 	}

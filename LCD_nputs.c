@@ -11,7 +11,7 @@
 
 void LCD_nputs (const char *s, uint8_t n, uint8_t idx)
 {
-	register char c;
+	char c;
 	s+=idx;
 	while (n) {
 		n--;
